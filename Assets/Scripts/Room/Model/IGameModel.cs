@@ -6,8 +6,12 @@
 
         int hour { get; set; }
 
+        int minute { get; set; }
+
         ComputerGameStateIdentifier computerGameState { get; set; }
 
         CameraIdentifier currentCamera { get; set; }
+
+        ComputerGame currentGame { get; set; }
     }
 }

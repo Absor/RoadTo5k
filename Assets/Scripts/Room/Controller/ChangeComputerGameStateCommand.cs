@@ -15,9 +15,13 @@ namespace Sesto.RoadTo5k
 
         public override void Execute()
         {
-            // TODO
-            if (gameModel.computerGameState != newComputerGameStateIdentifier)
+            if (newComputerGameStateIdentifier == ComputerGameStateIdentifier.HERO_PICK &&
+                gameModel.computerGameState == ComputerGameStateIdentifier.LOBBY)
             {
+                // New game
+                gameModel.currentGame = new ComputerGame();
+                gameModel.currentGame.gameMinutes = 0;
+
                 gameModel.computerGameState = newComputerGameStateIdentifier;
                 computerGameStateChangedSignal.Dispatch(newComputerGameStateIdentifier);
             }
