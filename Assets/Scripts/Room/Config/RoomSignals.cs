@@ -1,4 +1,5 @@
 ﻿using strange.extensions.signal.impl;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sesto.RoadTo5k
@@ -32,7 +33,15 @@ namespace Sesto.RoadTo5k
     public class StartNewMatchSignal : Signal { }
 
     /**
+     * Choose a hero. TODO
+     **/
+    public class PickHeroSignal : Signal { }
+
+    /**
      * Hero pick ready attempt signal.
      **/
     public class HeroPickReadySignal : Signal { }
+
+    public class SendChatMessageSignal : Signal<ChatMessage> { }
+    public class ChatChangedSignal : Signal<List<ChatMessage>> { }
 }

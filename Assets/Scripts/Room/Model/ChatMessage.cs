@@ -9,22 +9,33 @@
 
     public class ChatMessage
     {
+        // Check http://docs.unity3d.com/Manual/StyledText.html for colors and styling
+
+        public ChatMessage()
+        {
+            senderColor = "black";
+            messageColor = "black";
+        }
+
         public string senderName { get; set; }
+
+        public string senderColor { get; set; }
 
         public string message { get; set; }
 
-        // e.g. Allies, All
+        public string messageColor { get; set; }
+
         public ChatMessageType messageType { get; set; }
 
         public override string ToString()
         {
             switch (this.messageType) {
                 case ChatMessageType.ALL:
-                    return "[ALL]" + senderName + ": " + message;
+                    return "[ALL]" + "<color=" + senderColor + ">"+ senderName + "</color>: " + "<color=" + messageColor + ">" + message + "</color>";
                 case ChatMessageType.ALLIES:
-                    return "[ALLIES]" + senderName + ": " + message;
+                    return "[ALLIES]" + "<color=" + senderColor + ">" + senderName + "</color>: " + "<color=" + messageColor + ">" + message + "</color>";
                 case ChatMessageType.SYSTEM:
-                    return message;
+                    return "<color=" + messageColor + ">"+ message + "</color>";
             }
             return message;
         }

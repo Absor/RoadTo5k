@@ -10,10 +10,21 @@ namespace Sesto.RoadTo5k
         [Inject]
         public ComputerScreenStateChangedSignal computerScreenStateChangedSignal { get; set; }
 
+        [Inject]
+        public SendChatMessageSignal sendChatMessageSignal { get; set; }
+
         public override void Execute()
         {
-            gameModel.currentGame = new Match();
-            gameModel.currentGame.gameMinutes = 0;
+            gameModel.currentMatch = new Match();
+            gameModel.currentMatch.gameMinutes = 0;
+            gameModel.currentMatch.heroPicked = false;
+
+            // Send join game message
+            ChatMessage message = new ChatMessage();
+            message.message = "Joined game.";
+            message.messageColor = "red";
+            message.messageType = ChatMessageType.SYSTEM;
+            sendChatMessageSignal.Dispatch(message);
 
             // Show hero pick screen
             gameModel.computerGameState = ComputerScreenStateIdentifier.HERO_PICK;

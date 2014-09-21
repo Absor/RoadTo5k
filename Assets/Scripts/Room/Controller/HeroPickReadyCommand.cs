@@ -12,12 +12,16 @@ namespace Sesto.RoadTo5k
 
         public override void Execute()
         {
-            // TODO check if hero has been picked, send chat message if not and so on
-
-
-            // Show game screen
-            gameModel.computerGameState = ComputerScreenStateIdentifier.GAME;
-            computerScreenStateChangedSignal.Dispatch(gameModel.computerGameState);
+            if (gameModel.currentMatch.heroPicked)
+            {
+                // Show game screen
+                gameModel.computerGameState = ComputerScreenStateIdentifier.GAME;
+                computerScreenStateChangedSignal.Dispatch(gameModel.computerGameState);
+            }
+            else
+            {
+                // Send chat error message
+            }            
         }
     }
 }

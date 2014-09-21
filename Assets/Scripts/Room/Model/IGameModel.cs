@@ -15,6 +15,6 @@
 
         CameraIdentifier currentCamera { get; set; }
 
-        Match currentGame { get; set; }
+        Match currentMatch { get; set; }
     }
 }

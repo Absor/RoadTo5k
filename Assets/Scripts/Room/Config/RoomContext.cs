@@ -30,17 +30,21 @@ namespace Sesto.RoadTo5k
             commandBinder.Bind<MoveCameraSignal>().To<MoveCameraCommand>();
             commandBinder.Bind<ChangeComputerScreenStateSignal>().To<ChangeComputerScreenStateCommand>();
             commandBinder.Bind<StartNewMatchSignal>().To<StartNewMatchCommand>();
+            commandBinder.Bind<PickHeroSignal>().To<PickHeroCommand>();
             commandBinder.Bind<HeroPickReadySignal>().To<HeroPickReadyCommand>();
+            commandBinder.Bind<SendChatMessageSignal>().To<SendChatMessageCommand>();
 
             // Signals not bound to commands need to be mapped for injection
             injectionBinder.Bind<CameraMovedSignal>().ToSingleton();
             injectionBinder.Bind<ComputerScreenStateChangedSignal>().ToSingleton();
+            injectionBinder.Bind<ChatChangedSignal>().ToSingleton();
 
             // Bind mediators (between signals/commands and views) to views
             mediationBinder.Bind<CameraView>().To<CameraMediator>();
             mediationBinder.Bind<CameraMoveView>().To<CameraMoveMediator>();
             mediationBinder.Bind<ComputerScreenView>().To<ComputerScreenMediator>();
             mediationBinder.Bind<ComputerScreenStateChangeView>().To<ComputerScreenStateChangeMediator>();
+            mediationBinder.Bind<ChatView>().To<ChatMediator>();
         }
     }
 }

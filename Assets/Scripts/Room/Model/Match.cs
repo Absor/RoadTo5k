@@ -6,6 +6,13 @@ namespace Sesto.RoadTo5k
      **/
     public class Match
     {
+        public Match()
+        {
+            ownTeamPlayers = new List<MatchPlayer>();
+            enemyTeamPlayers = new List<MatchPlayer>();
+            chatMessages = new List<ChatMessage>();
+        }
+
         public int gameMinutes { get; set; }
 
         public List<MatchPlayer> ownTeamPlayers { get; set; }
@@ -13,5 +20,7 @@ namespace Sesto.RoadTo5k
         public List<MatchPlayer> enemyTeamPlayers { get; set; }
 
         public List<ChatMessage> chatMessages { get; set; }
+
+        public bool heroPicked { get; set; }
     }
 }
