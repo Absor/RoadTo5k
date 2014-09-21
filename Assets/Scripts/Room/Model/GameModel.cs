@@ -15,6 +15,6 @@
 
         public CameraIdentifier currentCamera { get; set; }
 
-        public ComputerGame currentGame { get; set; }
+        public Match currentGame { get; set; }
     }
 }

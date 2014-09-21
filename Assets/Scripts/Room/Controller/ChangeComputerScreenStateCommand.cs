@@ -6,10 +6,10 @@ namespace Sesto.RoadTo5k
      * Bound to ChangeComputerGameStateSignal, ComputerGameStateIdentifier
      * is injected from the signal automatically.
      * 
-     * Checks if new computer game state can be accepted and if yes, updates
-     * game model and sends ComputerGameStateChangedSignal (to views mostly).
+     * Checks if new computer game state can be accepted and if yes, sends
+     * necessary signals to continue game.
      **/
-    public class ChangeComputerGameStateCommand : Command
+    public class ChangeComputerScreenStateCommand : Command
     {
         [Inject]
         public ComputerScreenStateIdentifier newComputerGameStateIdentifier { get; set; }
@@ -18,19 +18,24 @@ namespace Sesto.RoadTo5k
         public IGameModel gameModel { get; set; }
 
         [Inject]
-        public ComputerScreenStateChangedSignal computerGameStateChangedSignal { get; set; }
+        public StartNewMatchSignal startNewMatchSignal { get; set; }
+
+        [Inject]
+        public HeroPickReadySignal heroPickReadySignal { get; set; }
 
         public override void Execute()
         {
             if (newComputerGameStateIdentifier == ComputerScreenStateIdentifier.HERO_PICK &&
                 gameModel.computerGameState == ComputerScreenStateIdentifier.LOBBY)
             {
-                // New game LOBBY -> HERO_PICK
-                gameModel.currentGame = new ComputerGame();
-                gameModel.currentGame.gameMinutes = 0;
-
-                gameModel.computerGameState = newComputerGameStateIdentifier;
-                computerGameStateChangedSignal.Dispatch(newComputerGameStateIdentifier);
+                // LOBBY -> HERO_PICK, starts new match
+                startNewMatchSignal.Dispatch();
+            }
+            else if (newComputerGameStateIdentifier == ComputerScreenStateIdentifier.GAME &&
+              gameModel.computerGameState == ComputerScreenStateIdentifier.HERO_PICK)
+            {
+                // HERO_PICK -> GAME, attemps to continue to the actual play
+                heroPickReadySignal.Dispatch();
             }
             // TODO HERO_PICK -> GAME
             // TODO GAME -> GAME_END

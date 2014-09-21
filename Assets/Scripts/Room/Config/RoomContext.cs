@@ -28,7 +28,9 @@ namespace Sesto.RoadTo5k
             // Signals bound to commands
             commandBinder.Bind<StartSignal>().To<StartGameCommand>().Once();
             commandBinder.Bind<MoveCameraSignal>().To<MoveCameraCommand>();
-            commandBinder.Bind<ChangeComputerScreenStateSignal>().To<ChangeComputerGameStateCommand>();
+            commandBinder.Bind<ChangeComputerScreenStateSignal>().To<ChangeComputerScreenStateCommand>();
+            commandBinder.Bind<StartNewMatchSignal>().To<StartNewMatchCommand>();
+            commandBinder.Bind<HeroPickReadySignal>().To<HeroPickReadyCommand>();
 
             // Signals not bound to commands need to be mapped for injection
             injectionBinder.Bind<CameraMovedSignal>().ToSingleton();

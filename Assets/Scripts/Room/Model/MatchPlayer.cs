@@ -1,6 +1,6 @@
 ﻿namespace Sesto.RoadTo5k
 {
-    public class ComputerGamePlayer
+    public class MatchPlayer
     {
         public string name { get; set; }
 

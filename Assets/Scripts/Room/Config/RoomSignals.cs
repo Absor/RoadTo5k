@@ -25,4 +25,14 @@ namespace Sesto.RoadTo5k
     public class ChangeComputerScreenStateSignal : Signal<ComputerScreenStateIdentifier> { }
     // Same but after it is done (accepted) - can be used to update view
     public class ComputerScreenStateChangedSignal : Signal<ComputerScreenStateIdentifier> { }
+
+    /**
+     * Start a new MOBA match.
+     **/
+    public class StartNewMatchSignal : Signal { }
+
+    /**
+     * Hero pick ready attempt signal.
+     **/
+    public class HeroPickReadySignal : Signal { }
 }

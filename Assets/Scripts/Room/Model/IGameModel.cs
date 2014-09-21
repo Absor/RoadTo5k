@@ -15,6 +15,6 @@
 
         CameraIdentifier currentCamera { get; set; }
 
-        ComputerGame currentGame { get; set; }
+        Match currentGame { get; set; }
     }
 }
