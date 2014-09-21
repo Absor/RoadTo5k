@@ -12,18 +12,18 @@ namespace Sesto.RoadTo5k
     public class ChangeComputerGameStateCommand : Command
     {
         [Inject]
-        public ComputerGameStateIdentifier newComputerGameStateIdentifier { get; set; }
+        public ComputerScreenStateIdentifier newComputerGameStateIdentifier { get; set; }
 
         [Inject]
         public IGameModel gameModel { get; set; }
 
         [Inject]
-        public ComputerGameStateChangedSignal computerGameStateChangedSignal { get; set; }
+        public ComputerScreenStateChangedSignal computerGameStateChangedSignal { get; set; }
 
         public override void Execute()
         {
-            if (newComputerGameStateIdentifier == ComputerGameStateIdentifier.HERO_PICK &&
-                gameModel.computerGameState == ComputerGameStateIdentifier.LOBBY)
+            if (newComputerGameStateIdentifier == ComputerScreenStateIdentifier.HERO_PICK &&
+                gameModel.computerGameState == ComputerScreenStateIdentifier.LOBBY)
             {
                 // New game LOBBY -> HERO_PICK
                 gameModel.currentGame = new ComputerGame();

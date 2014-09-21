@@ -11,7 +11,7 @@
 
         int minute { get; set; }
 
-        ComputerGameStateIdentifier computerGameState { get; set; }
+        ComputerScreenStateIdentifier computerGameState { get; set; }
 
         CameraIdentifier currentCamera { get; set; }
 

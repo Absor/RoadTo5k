@@ -18,11 +18,11 @@ namespace Sesto.RoadTo5k
     public class CameraMovedSignal : Signal<CameraIdentifier, float> { }
 
     /**
-     * Changes the computer game state
+     * Changes the computer screen state
      * 
-     * ComputerGameStateIdentifier: new state identifier
+     * ComputerScreenStateIdentifier: new state identifier
      **/
-    public class ChangeComputerGameStateSignal : Signal<ComputerGameStateIdentifier> { }
+    public class ChangeComputerScreenStateSignal : Signal<ComputerScreenStateIdentifier> { }
     // Same but after it is done (accepted) - can be used to update view
-    public class ComputerGameStateChangedSignal : Signal<ComputerGameStateIdentifier> { }
+    public class ComputerScreenStateChangedSignal : Signal<ComputerScreenStateIdentifier> { }
 }

@@ -6,7 +6,7 @@
         COMPUTER_CAMERA
     }
 
-    public enum ComputerGameStateIdentifier
+    public enum ComputerScreenStateIdentifier
     {
         LOBBY,
         HERO_PICK,

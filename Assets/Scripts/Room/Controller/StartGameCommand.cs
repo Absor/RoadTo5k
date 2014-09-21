@@ -12,7 +12,7 @@ namespace Sesto.RoadTo5k
         public IGameModel gameModel { get; set; }
 
         [Inject]
-        public ComputerGameStateChangedSignal computerGameStateChangedSignal { get; set; }
+        public ComputerScreenStateChangedSignal computerGameStateChangedSignal { get; set; }
 
         [Inject]
         public CameraMovedSignal cameraMovedSignal { get; set; }
@@ -25,7 +25,7 @@ namespace Sesto.RoadTo5k
             // TODO signal
 
             // Computer starts from game lobby
-            gameModel.computerGameState = ComputerGameStateIdentifier.LOBBY;
+            gameModel.computerGameState = ComputerScreenStateIdentifier.LOBBY;
             computerGameStateChangedSignal.Dispatch(gameModel.computerGameState);
 
             // Camera starts from room view
