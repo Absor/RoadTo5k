@@ -3,11 +3,15 @@ using UnityEngine;
 
 namespace Sesto.RoadTo5k
 {
+    /**
+     * Communicates between CameraView and rest of the program.
+     **/
     public class CameraMediator : Mediator
     {
         [Inject]
         public CameraView view { get; set; }
 
+        // Gets this signal if camera move has been accepted by the game logic.
         [Inject]
         public CameraMovedSignal cameraMovedSignal { get; set; }
 

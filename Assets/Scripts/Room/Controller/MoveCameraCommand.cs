@@ -2,6 +2,10 @@
 
 namespace Sesto.RoadTo5k
 {
+    /**
+     * Checks if camera can be moved and if yes, sends
+     * CameraMovedSignal (to views mostly).
+     **/
     public class MoveCameraCommand : Command
     {
         [Inject]

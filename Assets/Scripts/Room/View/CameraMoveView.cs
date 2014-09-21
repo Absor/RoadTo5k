@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Sesto.RoadTo5k
 {
+    /**
+     * General view to send MoveCameraSignal forward.
+     * MoveCamera function can be bound e.g. to buttons.
+     **/
     public class CameraMoveView : View
     {
         public float transitionDuration;

@@ -1,5 +1,8 @@
 ﻿namespace Sesto.RoadTo5k
 {
+    /**
+     * The main game state interface.
+     **/
     public interface IGameModel
     {
         int day { get; set; }

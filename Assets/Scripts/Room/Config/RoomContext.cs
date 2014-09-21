@@ -3,6 +3,13 @@ using UnityEngine;
 
 namespace Sesto.RoadTo5k
 {
+    /**
+     * Sets up everything for dependency injection, configures mediators
+     * (communication between controller and Unity views) and sets up signals
+     * (communication between all components) and commands (controllers in MVC).
+     * 
+     * Example: https://github.com/strangeioc/strangerocks/blob/master/StrangeRocks/Assets/scripts/strangerocks/game/config/GameContext.cs
+     **/
     public class RoomContext : SignalContext
     {
 

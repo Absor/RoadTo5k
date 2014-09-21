@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Sesto.RoadTo5k
 {
+    /**
+     * General view to send ComputerGameStateIdentifier forward.
+     * ChangeComputerGameState function can be bound e.g. to buttons.
+     **/
     public class ComputerGameStateChangeView : View
     {
         public ComputerGameStateIdentifier newComputerGameStateIdentifier;

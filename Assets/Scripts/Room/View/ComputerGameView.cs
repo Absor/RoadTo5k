@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Sesto.RoadTo5k
 {
+    /**
+     * Controls computer screen activity.
+     * Shows the right stuff on screen by state.
+     **/
     public class ComputerGameView : View
     {
         public GameObject lobbyScreen;

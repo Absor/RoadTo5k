@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Sesto.RoadTo5k
 {
+    // Mediator between ComputerGameView and rest of the program.
     public class ComputerGameMediator : Mediator
     {
         [Inject]

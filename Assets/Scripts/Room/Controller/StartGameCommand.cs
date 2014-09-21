@@ -2,6 +2,10 @@
 
 namespace Sesto.RoadTo5k
 {
+    /**
+     * Sets up the basic stuff when game is started
+     * eg. game model, camera position and open computer window.
+     **/
     public class StartGameCommand : Command
     {
         [Inject]

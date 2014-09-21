@@ -2,6 +2,7 @@
 
 namespace Sesto.RoadTo5k
 {
+    // TODO Will probably be a real view, handles mouse clicks on computer.
     public class ComputerClick : MonoBehaviour
     {
 
