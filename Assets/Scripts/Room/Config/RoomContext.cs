@@ -25,6 +25,9 @@ namespace Sesto.RoadTo5k
             // Models
             injectionBinder.Bind<IGameModel>().To<GameModel>().ToSingleton();
 
+            // Services
+            injectionBinder.Bind<IRandomGenerator>().To<RandomGenerator>().ToSingleton();
+
             // Signals bound to commands
             commandBinder.Bind<StartSignal>().To<StartGameCommand>().Once();
             commandBinder.Bind<MoveCameraSignal>().To<MoveCameraCommand>();
