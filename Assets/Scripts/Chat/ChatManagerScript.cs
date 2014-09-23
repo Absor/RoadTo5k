@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -23,7 +23,7 @@ public class ChatManagerScript : MonoBehaviour {
 		}
 	}
 
-	public void Reset()
+	public void EmptyChat()
 	{
 		messages = new List<string>();
 		updateMessages();
