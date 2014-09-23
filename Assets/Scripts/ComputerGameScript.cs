@@ -3,18 +3,20 @@ using System.Collections;
 
 public class ComputerGameScript : MonoBehaviour {
 
-    public GameObject lobby;
-    public GameObject match;
+    public GameObject lobbyScreen;
+    public GameObject matchScreen;
+	public MatchScript matchScript;
 
     void Awake()
     {
-        lobby.SetActive(true);
-        match.SetActive(false);
+		lobbyScreen.SetActive(true);
+		matchScreen.SetActive(false);
     }
 
-    public void PlayMatch()
+    public void StartMatch()
     {
-        lobby.SetActive(false);
-        match.SetActive(true);
+		lobbyScreen.SetActive(false);
+		matchScreen.SetActive(true);
+		matchScript.StartMatch();
     }
 }

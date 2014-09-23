@@ -14,5 +14,11 @@ public class MatchScript : MonoBehaviour {
         heroPickScreen.SetActive(heroPickScreen == screen);
         gameScreen.SetActive(gameScreen == screen);
         gameEndScreen.SetActive(gameEndScreen == screen);
-    }
+	}
+
+	public void StartMatch()
+	{
+		ActivateScreen(heroPickScreen);
+		chatManagerScript.Reset();
+	}
 }
