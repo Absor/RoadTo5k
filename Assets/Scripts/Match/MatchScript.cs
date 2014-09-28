@@ -57,6 +57,10 @@ public class MatchScript : MonoBehaviour {
 	{
 		// Check if hero is picked and so on...
 		ActivateScreen(gameScreen);
+
+        // Reset fight manager (animations) has to be after activate to update animations
+        matchFightManagerScript.Reset();
+
         PlayNextStep();
     }
 
@@ -91,7 +95,7 @@ public class MatchScript : MonoBehaviour {
 
     private void playDialogStep()
     {
-        StartCoroutine(matchDialogManagerScript.PlayDialogStep(matchState));
+        StartCoroutine(matchDialogManagerScript.PlayDialogStep(matchState, PlayNextStep));
     }
 
     private void matchWon()

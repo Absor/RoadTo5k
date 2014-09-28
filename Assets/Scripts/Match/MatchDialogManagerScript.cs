@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class MatchDialogManagerScript : MonoBehaviour {
 
-	public MatchScript matchScript;
 	public GameObject dialogPanel;
 
     private bool dialogResolved;
@@ -13,7 +13,7 @@ public class MatchDialogManagerScript : MonoBehaviour {
 		dialogPanel.SetActive(false);
 	}
 
-    public IEnumerator PlayDialogStep(MatchState matchState)
+    public IEnumerator PlayDialogStep(MatchState matchState, Action done)
 	{
         dialogResolved = false;
 		dialogPanel.SetActive(true);
@@ -27,7 +27,7 @@ public class MatchDialogManagerScript : MonoBehaviour {
         matchState.dialogsPlayed += 1;
 
         dialogPanel.SetActive(false);
-        matchScript.PlayNextStep();
+        done();
 	}
 
 	public void ResolveDialog(/** Choice identifier **/)

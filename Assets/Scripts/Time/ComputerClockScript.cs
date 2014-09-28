@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class ComputerClockScript : MonoBehaviour
 {
-
     public Text clockText;
 
     public void updateTime(int hour, int minute)

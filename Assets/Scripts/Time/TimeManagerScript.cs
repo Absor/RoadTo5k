@@ -10,7 +10,8 @@ public class TimeManagerScript : MonoBehaviour {
     public WallClockScript wallClockScript;
     public ComputerClockScript computerClockScript;
 
-    void Awake()
+    // Start because it depends on the other scripts
+    void Start()
     {
         updateTimeHandlers();
     }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class MatchFightManagerScript : MonoBehaviour {
 
     public MatchScript matchScript;
+    public FightAnimatorScript fightAnimatorScript;
 
     private bool fightEnded;
 
@@ -38,7 +39,8 @@ public class MatchFightManagerScript : MonoBehaviour {
         }
 
         matchState.fightsPlayed += 1;
-        matchScript.PlayNextStep();
+        // TODO null to fight event list
+        StartCoroutine(fightAnimatorScript.PlayFight(null, FightAnimated));
     }
 
     private int countTotalHeroHealth(List<Hero> heroes)
@@ -69,5 +71,15 @@ public class MatchFightManagerScript : MonoBehaviour {
             healing += hero.healing;
         }
         return healing;
+    }
+
+    public void Reset()
+    {
+        fightAnimatorScript.Reset();
+    }
+
+    public void FightAnimated()
+    {
+        matchScript.PlayNextStep();
     }
 }
