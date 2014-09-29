@@ -19,4 +19,11 @@ public class ComputerGameScript : MonoBehaviour {
 		matchScreen.SetActive(true);
 		matchScript.StartMatch();
     }
+
+    public void EndMatch()
+    {
+        // TODO cleanup?
+        lobbyScreen.SetActive(true);
+        matchScreen.SetActive(false);
+    }
 }

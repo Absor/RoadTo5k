@@ -228,17 +228,17 @@ public class FightAnimatorScript : MonoBehaviour {
             verticalDirection = startDirection;
         }
 
-        character.animatorScript.Walk();
-
         if (horizontalFirst)
         {
             character.animatorScript.Face(horizontalDirection);
+            character.animatorScript.Walk();
 
             float animationDuration = horizontalMoveAnimationDuration(character);
             StartCoroutine(horizontalMoveAnimation(character));
             yield return new WaitForSeconds(animationDuration);
 
             character.animatorScript.Face(verticalDirection);
+            character.animatorScript.Walk();
 
             animationDuration = verticalMoveAnimationDuration(character);
             StartCoroutine(verticalMoveAnimation(character));
@@ -247,12 +247,14 @@ public class FightAnimatorScript : MonoBehaviour {
         else
         {
             character.animatorScript.Face(verticalDirection);
+            character.animatorScript.Walk();
 
             float animationDuration = verticalMoveAnimationDuration(character);
             StartCoroutine(verticalMoveAnimation(character));
             yield return new WaitForSeconds(animationDuration);
 
             character.animatorScript.Face(horizontalDirection);
+            character.animatorScript.Walk();
 
             animationDuration = horizontalMoveAnimationDuration(character);
             StartCoroutine(horizontalMoveAnimation(character));

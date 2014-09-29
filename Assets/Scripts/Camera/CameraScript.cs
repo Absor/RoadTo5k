@@ -5,14 +5,18 @@ public class CameraScript : MonoBehaviour {
 
     public Transform startPosition;
 
+    private bool canTransition;
+
     void Awake()
     {
+        canTransition = true;
         MoveCamera(startPosition, 0);
     }
 
     public void MoveCamera(Transform newPosition, float transitionDuration)
     {
-        if (newPosition == cameraPosition) {
+        if (newPosition == cameraPosition || !canTransition)
+        {
             return;
         }
         StopCoroutine("TransitionCamera");
@@ -42,5 +46,10 @@ public class CameraScript : MonoBehaviour {
 
     public Transform GetCameraPosition() {
         return cameraPosition;
+    }
+
+    public void SetCanTransition(bool canTransition)
+    {
+        this.canTransition = canTransition;
     }
 }

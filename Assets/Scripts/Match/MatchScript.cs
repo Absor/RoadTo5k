@@ -9,7 +9,7 @@ public class MatchScript : MonoBehaviour {
     public GameObject gameEndScreen;
 
     public ChatManagerScript chatManagerScript;
-	public MatchDialogManagerScript matchDialogManagerScript;
+	public DialogManagerScript dialogManagerScript;
     public FightManagerScript fightManagerScript;
 
 	private MatchState matchState;
@@ -95,7 +95,15 @@ public class MatchScript : MonoBehaviour {
 
     private void playDialogStep()
     {
-        StartCoroutine(matchDialogManagerScript.PlayDialogStep(matchState, PlayNextStep));
+        var list = new List<DialogOption>();
+        list.Add(new DialogOption());
+        dialogManagerScript.ShowDialog(list, dialogResolved);
+    }
+
+    private void dialogResolved(DialogOption option)
+    {
+        matchState.dialogsPlayed++;
+        PlayNextStep();
     }
 
     private void matchWon()
