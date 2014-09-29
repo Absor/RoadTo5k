@@ -39,4 +39,8 @@ public class CameraScript : MonoBehaviour {
             yield return 0;
         }
     }
+
+    public Transform GetCameraPosition() {
+        return cameraPosition;
+    }
 }
