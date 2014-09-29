@@ -10,7 +10,7 @@ public class MatchScript : MonoBehaviour {
 
     public ChatManagerScript chatManagerScript;
 	public MatchDialogManagerScript matchDialogManagerScript;
-    public MatchFightManagerScript matchFightManagerScript;
+    public FightManagerScript fightManagerScript;
 
 	private MatchState matchState;
 
@@ -59,7 +59,7 @@ public class MatchScript : MonoBehaviour {
 		ActivateScreen(gameScreen);
 
         // Reset fight manager (animations) has to be after activate to update animations
-        matchFightManagerScript.Reset();
+        fightManagerScript.Reset();
 
         PlayNextStep();
     }
@@ -90,7 +90,7 @@ public class MatchScript : MonoBehaviour {
 
     private void playFightStep()
     {
-        StartCoroutine(matchFightManagerScript.PlayFightStep(matchState));
+        StartCoroutine(fightManagerScript.PlayFightStep(matchState));
     }
 
     private void playDialogStep()

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class MatchFightManagerScript : MonoBehaviour {
+public class FightManagerScript : MonoBehaviour {
 
     public MatchScript matchScript;
     public FightAnimatorScript fightAnimatorScript;
