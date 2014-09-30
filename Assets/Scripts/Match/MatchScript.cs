@@ -14,6 +14,7 @@ public class MatchScript : MonoBehaviour {
     public FightManagerScript fightManagerScript;
 
     public Button gameScreenNextStepButton;
+    public SliderInputScript sliderInputScript;
 
 	private MatchState matchState;
 
