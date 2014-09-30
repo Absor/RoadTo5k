@@ -6,18 +6,21 @@ using UnityEngine.UI;
 
 public class DialogManagerScript : MonoBehaviour {
 
-    public GameObject dialogPanel;
+    public GameObject dialogContainer;
     public GameObject dialogButtonPrefab;
     public GameObject dialogButtonContainer;
+    public Text dialogText;
     public CameraScript cameraScript;
 
     void Awake()
     {
-        dialogPanel.SetActive(false);
+        dialogContainer.SetActive(false);
     }
 
-    public void ShowDialog(List<DialogOption> dialogOptions, Action<DialogOption> done)
+    public void ShowDialog(Dialog dialog, Action<DialogOption> done)
     {
+        dialogText.text = dialog.dialogText;
+
         List<GameObject> dialogButtons = new List<GameObject>();
         foreach (Transform child in dialogButtonContainer.transform)
         {
@@ -25,16 +28,18 @@ public class DialogManagerScript : MonoBehaviour {
         }
         dialogButtons.ForEach(child => Destroy(child));
 
-        dialogOptions.ForEach(option =>
+        dialog.dialogOptions.ForEach(option =>
         {
             GameObject dialogButton = Instantiate(dialogButtonPrefab) as GameObject;
-            dialogButton.transform.parent = dialogButtonContainer.transform;
+            Text buttonText = dialogButton.GetComponentInChildren<Text>();
+            buttonText.text = option.optionText;
             dialogButton.GetComponent<Button>().onClick.AddListener(() =>
             {
-                dialogPanel.SetActive(false);
+                dialogContainer.SetActive(false);
                 cameraScript.SetCanTransition(true);
                 done(option);
             });
+            dialogButton.transform.parent = dialogButtonContainer.transform;
         });
 
         // Doesn't update parents instantly (content fitter doesn't notice), so wait a moment before showing
@@ -44,7 +49,7 @@ public class DialogManagerScript : MonoBehaviour {
     private IEnumerator activateDialog()
     {
         yield return new WaitForEndOfFrame();
-        dialogPanel.SetActive(true);
+        dialogContainer.SetActive(true);
         cameraScript.SetCanTransition(false);
     }
 }

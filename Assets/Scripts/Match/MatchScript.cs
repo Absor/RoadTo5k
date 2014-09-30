@@ -98,9 +98,9 @@ public class MatchScript : MonoBehaviour {
 
     private void playDialogStep()
     {
-        var list = new List<DialogOption>();
-        list.Add(new DialogOption());
-        dialogManagerScript.ShowDialog(list, dialogResolved);
+        Dialog dialog = new Dialog();
+        dialog.dialogOptions.Add(new DialogOption());
+        dialogManagerScript.ShowDialog(dialog, dialogResolved);
     }
 
     private void dialogResolved(DialogOption option)
