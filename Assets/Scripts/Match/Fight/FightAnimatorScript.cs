@@ -9,8 +9,8 @@ public class FightAnimatorScript : MonoBehaviour {
 
     public float secondsPerSquare;
 
-    public int tileHeight = 96;
-    public int tileWidth = 96;
+    private float tileHeight;
+    private float tileWidth;
 
     private Vector2 areaSize;
     private FightCharacter[] fightCharacters;
@@ -26,6 +26,16 @@ public class FightAnimatorScript : MonoBehaviour {
 	void Awake () {
         RectTransform rectTransform = GetComponent<RectTransform>();
         areaSize = rectTransform.sizeDelta;
+        if (areaSize.x > areaSize.y)
+        {
+            tileHeight = areaSize.y / 5;
+            tileWidth = tileHeight;
+        }
+        else
+        {
+            tileHeight = areaSize.x / 5;
+            tileWidth = tileHeight;
+        }
         fightCharacters = new FightCharacter[10];
 
         for (int i = 0; i < 10; i++)

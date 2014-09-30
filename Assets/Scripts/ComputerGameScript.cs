@@ -7,7 +7,7 @@ public class ComputerGameScript : MonoBehaviour {
     public GameObject matchScreen;
 	public MatchScript matchScript;
 
-    void Awake()
+    void Start()
     {
 		lobbyScreen.SetActive(true);
 		matchScreen.SetActive(false);

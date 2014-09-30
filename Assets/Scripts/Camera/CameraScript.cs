@@ -7,7 +7,7 @@ public class CameraScript : MonoBehaviour {
 
     private bool canTransition;
 
-    void Awake()
+    void Start()
     {
         canTransition = true;
         MoveCamera(startPosition, 0);

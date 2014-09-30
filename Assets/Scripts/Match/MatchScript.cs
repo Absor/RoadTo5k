@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class MatchScript : MonoBehaviour {
 
@@ -12,7 +13,20 @@ public class MatchScript : MonoBehaviour {
 	public DialogManagerScript dialogManagerScript;
     public FightManagerScript fightManagerScript;
 
+    public Button gameScreenNextStepButton;
+
 	private MatchState matchState;
+
+    void Start()
+    {
+        gameScreenNextStepButton.onClick.AddListener(nextStepButtonPressed);
+    }
+
+    private void nextStepButtonPressed()
+    {
+        gameScreenNextStepButton.gameObject.SetActive(false);
+        PlayNextStep();
+    }
 
     private void ActivateScreen(GameObject screen)
     {
@@ -63,11 +77,9 @@ public class MatchScript : MonoBehaviour {
 
         // Reset fight manager (animations) has to be after activate to update animations
         fightManagerScript.Reset();
-
-        PlayNextStep();
     }
 
-    public void PlayNextStep()
+    private void PlayNextStep()
     {
         // Win condition whatevers, could be inside fightmanager or dialogmanager
         if (matchState.dialogsPlayed >= 3 && matchState.fightsPlayed >= 3)
@@ -93,7 +105,7 @@ public class MatchScript : MonoBehaviour {
 
     private void playFightStep()
     {
-        StartCoroutine(fightManagerScript.PlayFightStep(matchState));
+        StartCoroutine(fightManagerScript.PlayFightStep(matchState, fightResolved));
     }
 
     private void playDialogStep()
@@ -106,7 +118,13 @@ public class MatchScript : MonoBehaviour {
     private void dialogResolved(DialogOption option)
     {
         matchState.dialogsPlayed++;
-        PlayNextStep();
+        gameScreenNextStepButton.gameObject.SetActive(true);
+    }
+
+    private void fightResolved()
+    {
+        matchState.fightsPlayed++;
+        gameScreenNextStepButton.gameObject.SetActive(true);
     }
 
     private void matchWon()

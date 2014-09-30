@@ -2,15 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class FightManagerScript : MonoBehaviour {
 
-    public MatchScript matchScript;
     public FightAnimatorScript fightAnimatorScript;
 
     private bool fightEnded;
 
-    public IEnumerator PlayFightStep(MatchState matchState)
+    public IEnumerator PlayFightStep(MatchState matchState, Action done)
     {
         List<Hero> team1Heroes = matchState.team1Heroes;
         List<Hero> team2Heroes = matchState.team2Heroes;
@@ -65,9 +65,8 @@ public class FightManagerScript : MonoBehaviour {
         }
 
 		Debug.Log("FIGHT ENDED, team1 deaths: " + matchState.Team1CurrentlyDead() + " team2 deaths: " + matchState.Team2CurrentlyDead());
-        matchState.fightsPlayed += 1;
         // TODO null to fight event list
-        StartCoroutine(fightAnimatorScript.PlayFight(null, FightAnimated));
+        StartCoroutine(fightAnimatorScript.PlayFight(null, done));
     }
 
 	/*
@@ -104,10 +103,5 @@ public class FightManagerScript : MonoBehaviour {
     public void Reset()
     {
         fightAnimatorScript.Reset();
-    }
-
-    public void FightAnimated()
-    {
-        matchScript.PlayNextStep();
     }
 }
