@@ -34,7 +34,9 @@ public class MatchScript : MonoBehaviour {
             Hero hero = new Hero();
             hero.damage = Random.Range(2, 4);
             hero.healing = Random.Range(1, 3);
-            hero.health = Random.Range(12, 15);
+            hero.maxhp = Random.Range(12, 15);
+			hero.initiative = Random.Range(1, 100);
+			hero.currenthp = hero.maxhp;
             if (i < 5)
             {
                 matchState.team1Heroes.Add(hero);
@@ -43,6 +45,7 @@ public class MatchScript : MonoBehaviour {
             {
                 matchState.team2Heroes.Add(hero);
             }
+			matchState.matchHeroes.Add(hero);
         }
 
 		ActivateScreen(heroPickScreen);

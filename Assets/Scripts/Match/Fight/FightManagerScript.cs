@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class FightManagerScript : MonoBehaviour {
 
@@ -13,14 +14,33 @@ public class FightManagerScript : MonoBehaviour {
     {
         List<Hero> team1Heroes = matchState.team1Heroes;
         List<Hero> team2Heroes = matchState.team2Heroes;
-        int team1Hp = countTotalHeroHealth(team1Heroes);
-        int team2Hp = countTotalHeroHealth(team2Heroes);
+		List<Hero> matchHeroes = matchState.matchHeroes;
+        //int team1Hp = countTotalHeroHealth(team1Heroes);
+       // int team2Hp = countTotalHeroHealth(team2Heroes);
 
         int turn = 1;
         bool playing = true;
+
+		matchState.newFight();
+
+		foreach (Hero hero in matchHeroes)
+		{
+			hero.startFight(matchState);
+		}
+
         while (playing)
         {
-            Debug.Log("Turn start | team 1 health: " + team1Hp + "| team 2 health: " + team2Hp);
+			Debug.Log("Turn " +turn+ "start | " + matchState.ToString());
+			matchHeroes.OrderBy(o=>o.initiative);
+			foreach (Hero hero in matchHeroes)
+			{
+				if (!hero.dead && !matchState.AnyTeamDead())
+				{
+					Debug.Log(matchState.AnyTeamDead());
+					hero.fightAction(matchState);
+				}
+			}
+			/*
             int team1Damage = countTotalHeroDamage(team1Heroes);
             int team2Damage = countTotalHeroDamage(team2Heroes);
             int team1Healing = countTotalHeroHealing(team1Heroes);
@@ -32,23 +52,31 @@ public class FightManagerScript : MonoBehaviour {
             if (team1Hp <= 0 || team2Hp <= 0 || turn >= 20)
             {
                 playing = false;
-            }
+            }*/
+
+			if (turn >= 20 || matchState.AnyTeamDead())
+			{
+				playing = false;
+			}
+
             turn++;
-            Debug.Log("Turn end | team 1 health: " + team1Hp + "| team 2 health: " + team2Hp);
+			Debug.Log("Turn " +(turn-1)+ "end | " + matchState.ToString());
             yield return null;
         }
 
+		Debug.Log("FIGHT ENDED, team1 deaths: " + matchState.Team1CurrentlyDead() + " team2 deaths: " + matchState.Team2CurrentlyDead());
         matchState.fightsPlayed += 1;
         // TODO null to fight event list
         StartCoroutine(fightAnimatorScript.PlayFight(null, FightAnimated));
     }
 
+	/*
     private int countTotalHeroHealth(List<Hero> heroes)
     {
         int health = 0;
         foreach (Hero hero in heroes)
         {
-            health += hero.health;
+            health += hero.currenthp;
         }
         return health;
     }
@@ -71,7 +99,7 @@ public class FightManagerScript : MonoBehaviour {
             healing += hero.healing;
         }
         return healing;
-    }
+    }*/
 
     public void Reset()
     {
