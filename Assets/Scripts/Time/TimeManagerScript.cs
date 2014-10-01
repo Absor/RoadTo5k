@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class TimeManagerScript : MonoBehaviour {
 
@@ -9,8 +10,8 @@ public class TimeManagerScript : MonoBehaviour {
 
     public WallClockScript wallClockScript;
     public ComputerClockScript computerClockScript;
+    public Text dayText;
 
-    // Start because it depends on the other scripts
     void Start()
     {
         updateTimeHandlers();
@@ -18,7 +19,16 @@ public class TimeManagerScript : MonoBehaviour {
 
     private void updateTimeHandlers()
     {
-        wallClockScript.updateTime(hour, minute);
-        computerClockScript.updateTime(hour, minute);
+        wallClockScript.UpdateTime(hour, minute);
+        computerClockScript.UpdateTime(hour, minute);
+        dayText.text = "Day " + day;
+    }
+
+    public void SetDayAndTime(int day, int hour, int minute)
+    {
+        this.day = day;
+        this.hour = hour;
+        this.minute = minute;
+        updateTimeHandlers();
     }
 }

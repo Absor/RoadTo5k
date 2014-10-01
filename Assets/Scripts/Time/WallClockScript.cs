@@ -14,7 +14,7 @@ public class WallClockScript : MonoBehaviour {
         pointerHours = transform.Find("rotation_axis_pointer_hour").gameObject;
     }
 
-    public void updateTime(int hour, int minute)
+    public void UpdateTime(int hour, int minute)
     {
         // TODO if we want also to control seconds
         int second = 0;
