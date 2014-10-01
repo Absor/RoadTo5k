@@ -10,7 +10,6 @@ public class DialogManagerScript : MonoBehaviour {
     public GameObject dialogButtonPrefab;
     public GameObject dialogButtonContainer;
     public Text dialogText;
-    public CameraScript cameraScript;
 
     void Awake()
     {
@@ -36,7 +35,6 @@ public class DialogManagerScript : MonoBehaviour {
             dialogButton.GetComponent<Button>().onClick.AddListener(() =>
             {
                 dialogContainer.SetActive(false);
-                cameraScript.SetCanTransition(true);
                 done(option);
             });
             dialogButton.transform.parent = dialogButtonContainer.transform;
@@ -50,6 +48,5 @@ public class DialogManagerScript : MonoBehaviour {
     {
         yield return new WaitForEndOfFrame();
         dialogContainer.SetActive(true);
-        cameraScript.SetCanTransition(false);
     }
 }
