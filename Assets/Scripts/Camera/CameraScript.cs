@@ -5,17 +5,14 @@ public class CameraScript : MonoBehaviour {
 
     public Transform startPosition;
 
-    private bool canTransition;
-
     void Start()
     {
-        canTransition = true;
         MoveCamera(startPosition, 0);
     }
 
     public void MoveCamera(Transform newPosition, float transitionDuration)
     {
-        if (newPosition == cameraPosition || !canTransition)
+        if (newPosition == cameraPosition)
         {
             return;
         }
@@ -42,14 +39,5 @@ public class CameraScript : MonoBehaviour {
             transform.rotation = Quaternion.Lerp(startingRot, cameraPosition.rotation, t);
             yield return 0;
         }
-    }
-
-    public Transform GetCameraPosition() {
-        return cameraPosition;
-    }
-
-    public void SetCanTransition(bool canTransition)
-    {
-        this.canTransition = canTransition;
     }
 }
