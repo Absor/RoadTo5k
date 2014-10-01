@@ -1,21 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShowToolTipOnMouseOverScript : MonoBehaviour {
+public class TooltipScript : MonoBehaviour {
 
     public string tooltipText;
     public TooltipManagerScript tooltipManagerScript;
     public Transform showCameraPosition;
     public CameraScript cameraScript;
 
-    void OnMouseEnter()
+    public void ShowTooltip()
     {
         if (cameraScript.GetCameraPosition() == showCameraPosition) {
             tooltipManagerScript.ShowTooltip(tooltipText);
         }
     }
 
-    void OnMouseExit()
+    public void HideTooltip()
     {
         tooltipManagerScript.HideToolTip();
     }
