@@ -11,7 +11,7 @@ public class ChatScript : MonoBehaviour {
 	    string chatText = "";
         foreach (string message in messages)
         {
-            chatText += message;
+            chatText += "\n" + message;
         }
 
         textField.text = chatText;
