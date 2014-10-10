@@ -17,9 +17,12 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
 
     public GameEvent GetDailyEvent(int day)
     {
-        List<GameEvent> dailies = dailyEvents[day + ""];
-        if (dailies == null)
+        string key = day + "";
+        List<GameEvent> dailies;
+        if (dailyEvents.ContainsKey(key))
         {
+            dailies = dailyEvents[key];
+        } else {
             dailies = dailyEvents["any"];
         }
         return dailies[Random.Range(0, dailies.Count)];
