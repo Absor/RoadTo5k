@@ -2,24 +2,30 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class TooltipManagerScript : MonoBehaviour {
+public class TooltipManagerScript : Singleton<TooltipManagerScript> {
 
-    public GameObject panel;
-    public Text text;
+    private Text text;
 
     void Start()
     {
+        text = gameObject.GetSafeComponentInChildren<Text>();
         HideToolTip();
     }
 
     public void ShowTooltip(string newText)
     {
         text.text = newText;
-        panel.SetActive(true);
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }
     }
 
     public void HideToolTip()
     {
-        panel.SetActive(false);
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+        }
     }
 }

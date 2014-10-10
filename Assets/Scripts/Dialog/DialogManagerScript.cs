@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class DialogManagerScript : MonoBehaviour {
+public class DialogManagerScript : Singleton<DialogManagerScript> {
 
     public GameObject dialogContainer;
     public GameObject dialogButtonPrefab;

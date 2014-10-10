@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WallClockScript : MonoBehaviour {
+public class WallClockScript : MonoBehaviour, IClockScript
+{
 
     private GameObject pointerSeconds;
     private GameObject pointerMinutes;
@@ -14,7 +15,7 @@ public class WallClockScript : MonoBehaviour {
         pointerHours = transform.Find("rotation_axis_pointer_hour").gameObject;
     }
 
-    public void UpdateTime(int hour, int minute)
+    public void UpdateTime(int day, int hour, int minute)
     {
         // TODO if we want also to control seconds
         int second = 0;

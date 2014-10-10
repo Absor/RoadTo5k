@@ -5,9 +5,14 @@ using System.Collections.Generic;
 public class ChatManagerScript : MonoBehaviour {
 
     // Chat Scripts to give updates to
-    public ChatScript[] chatScripts;
+    private List<IChatScript> chatScripts;
 
     private List<string> messages;
+
+    void Awake()
+    {
+        chatScripts = this.FindObjectsOfInterface<IChatScript>();
+    }
 
     public void AddMessage(string message)
     {

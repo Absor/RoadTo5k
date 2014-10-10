@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class StatusManagerScript : MonoBehaviour {
+public class StatusManagerScript : Singleton<StatusManagerScript> {
 
     public PlayerScript playerScript;
     public TooltipManagerScript tooltipManagerScript;
@@ -119,5 +119,10 @@ public class StatusManagerScript : MonoBehaviour {
     public void HideTooltip()
     {
         tooltipManagerScript.HideToolTip();
+    }
+
+    public void ApplyOutcome(GameEventOutcome outcome)
+    {
+        updateSliders();
     }
 }

@@ -1,30 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
-public class TimeManagerScript : MonoBehaviour {
+public class TimeManagerScript : Singleton<TimeManagerScript> {
 
 	public int day;
 	public int hour;
 	public int minute;
 
-    public WallClockScript wallClockScript;
-    public ComputerClockScript computerClockScript;
-    public Text dayText;
+    private List<IClockScript> clockScripts;
 
     void Start()
     {
+        clockScripts = this.FindObjectsOfInterface<IClockScript>();
         updateTimeHandlers();
     }
 
     private void updateTimeHandlers()
     {
-        wallClockScript.UpdateTime(hour, minute);
-        computerClockScript.UpdateTime(hour, minute);
-        dayText.text = "Day " + day;
+        foreach (IClockScript clockScript in clockScripts)
+        {
+            clockScript.UpdateTime(day, hour, minute);
+        }
     }
 
-    public void SetDayAndTime(int day, int hour, int minute)
+    public void SetTime(int day, int hour, int minute)
     {
         this.day = day;
         this.hour = hour;
