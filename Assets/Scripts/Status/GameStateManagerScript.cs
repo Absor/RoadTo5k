@@ -12,7 +12,7 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
     public class GameStateUpdate : UnityEvent {}
     public GameStateUpdate OnGameStateUpdate = new GameStateUpdate();
 
-    void Start()
+    void Awake()
     {
         currentGameState = new GameState();
         setGameStateDefaults();

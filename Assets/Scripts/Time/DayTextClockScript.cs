@@ -6,9 +6,9 @@ public class DayTextClockScript : MonoBehaviour, IClockScript {
 
     private Text text;
 
-    void Start()
+    void Awake()
     {
-        text = gameObject.GetSafeComponentInChildren<Text>();
+        text = gameObject.GetSafeComponent<Text>();
     }
 
     public void UpdateTime(GameTime time)

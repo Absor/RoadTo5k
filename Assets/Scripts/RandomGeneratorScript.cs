@@ -62,7 +62,7 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
         dailyEvents = events;
 
 
-        string json = JsonMapper.ToJson(e);
+        string json = JsonMapper.ToJson(dailyEvents);
 
         Debug.Log(json);
     }
