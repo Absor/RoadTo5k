@@ -22,6 +22,6 @@ public class GameEventManagerScript : Singleton<GameEventManagerScript> {
             Debug.Log("GameEventOutcome was not in the GameEvent for DialogOption " + option.optionId);
             return;
         }
-        StatusManagerScript.Instance.ApplyOutcome(outcome);
+        GameStateManagerScript.Instance.ApplyOutcome(outcome);
     }
 }

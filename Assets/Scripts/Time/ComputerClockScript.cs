@@ -6,8 +6,8 @@ public class ComputerClockScript : MonoBehaviour, IClockScript
 {
     public Text clockText;
 
-    public void UpdateTime(int day, int hour, int minute)
+    public void UpdateTime(GameTime time)
     {
-        clockText.text = (hour < 10 ? "0" + hour : "" + hour) + ":" + (minute < 10 ? "0" + minute : "" + minute);
+        clockText.text = (time.hour < 10 ? "0" + time.hour : "" + time.hour) + ":" + (time.minute < 10 ? "0" + time.minute : "" + time.minute);
     }
 }

@@ -1,3 +1,3 @@
 ﻿public interface IClockScript {
-    void UpdateTime(int day, int hour, int minute);
+    void UpdateTime(GameTime time);
 }

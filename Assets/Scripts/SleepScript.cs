@@ -45,7 +45,7 @@ public class SleepScript : MonoBehaviour, IPointerClickHandler {
         }
 
         // Time advances!
-        TimeManagerScript.Instance.SetTime(TimeManagerScript.Instance.day + 1, Random.Range(8, 12), Random.Range(0, 60));
+        GameStateManagerScript.Instance.AdvanceToNextDay();
 
         t = 0.0f;
         while (t < 1.0f)
@@ -63,7 +63,7 @@ public class SleepScript : MonoBehaviour, IPointerClickHandler {
 
     private void showDialogForToday()
     {
-        GameEvent dailyEvent = RandomGeneratorScript.Instance.GetDailyEvent(TimeManagerScript.Instance.day);
+        GameEvent dailyEvent = RandomGeneratorScript.Instance.GetDailyEvent(GameStateManagerScript.Instance.GetGameTime().day);
         GameEventManagerScript.Instance.ResolveGameEvent(dailyEvent);
     }
 

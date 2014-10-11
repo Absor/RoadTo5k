@@ -11,8 +11,8 @@ public class DayTextClockScript : MonoBehaviour, IClockScript {
         text = gameObject.GetSafeComponentInChildren<Text>();
     }
 
-    public void UpdateTime(int day, int hour, int minute)
+    public void UpdateTime(GameTime time)
     {
-        text.text = "Day " + day;
+        text.text = "Day " + time.day;
     }
 }

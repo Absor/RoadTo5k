@@ -5,15 +5,12 @@ using System.Collections.Generic;
 
 public class TimeManagerScript : Singleton<TimeManagerScript> {
 
-	public int day;
-	public int hour;
-	public int minute;
-
     private List<IClockScript> clockScripts;
 
     void Start()
     {
         clockScripts = this.FindObjectsOfInterface<IClockScript>();
+        GameStateManagerScript.Instance.OnGameStateUpdate.AddListener(updateTimeHandlers);
         updateTimeHandlers();
     }
 
@@ -21,15 +18,7 @@ public class TimeManagerScript : Singleton<TimeManagerScript> {
     {
         foreach (IClockScript clockScript in clockScripts)
         {
-            clockScript.UpdateTime(day, hour, minute);
+            clockScript.UpdateTime(GameStateManagerScript.Instance.GetGameTime());
         }
-    }
-
-    public void SetTime(int day, int hour, int minute)
-    {
-        this.day = day;
-        this.hour = hour;
-        this.minute = minute;
-        updateTimeHandlers();
     }
 }
