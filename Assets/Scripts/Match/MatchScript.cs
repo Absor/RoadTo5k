@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class MatchScript : MonoBehaviour {
+public class MatchScript : Singleton<MatchScript> {
 
     public GameObject heroPickScreen;
     public GameObject gameScreen;
@@ -102,6 +102,11 @@ public class MatchScript : MonoBehaviour {
             }
             // or who knows what based on matchState
         }
+    }
+
+    public void InteractWithChat()
+    {
+        Debug.Log("INTERACTION"); // TODO
     }
 
     private void playFightStep()

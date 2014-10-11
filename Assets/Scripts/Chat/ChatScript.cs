@@ -5,7 +5,20 @@ using UnityEngine.UI;
 
 public class ChatScript : MonoBehaviour, IChatScript {
 
-    public Text textField;
+    private Text textField;
+
+    private Button[] buttons;
+
+    void Awake()
+    {
+        textField = GetComponentInChildren<Text>();
+        buttons = GetComponentsInChildren<Button>();
+
+        foreach (Button button in buttons)
+        {
+            button.onClick.AddListener(chatButtonClicked);
+        }
+    }
 	
 	public void UpdateMessages (List<string> messages) {
 	    string chatText = "";
@@ -16,4 +29,9 @@ public class ChatScript : MonoBehaviour, IChatScript {
 
         textField.text = chatText;
 	}
+
+    private void chatButtonClicked()
+    {
+        MatchScript.Instance.InteractWithChat();
+    }
 }

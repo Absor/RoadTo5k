@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ChatManagerScript : MonoBehaviour {
+public class ChatManagerScript : Singleton<ChatManagerScript> {
 
     // Chat Scripts to give updates to
     private List<IChatScript> chatScripts;

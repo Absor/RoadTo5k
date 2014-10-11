@@ -10,7 +10,9 @@
     Skillpoints_Available = 8,
     Skillpoints_Assign_Amount = 9,
     Day_Start_Time_Min = 10,
-    Day_Start_Time_Max = 11
+    Day_Start_Time_Max = 11,
+    Rage_Gain_Modifier = 12,
+    Talent = 13
 }
 
 public static class StatusTypeExtensions

@@ -33,6 +33,7 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         currentGameState.statuses[StatusType.Time].points = 24 * 60 + 17 * 60 + 30;
         currentGameState.statuses[StatusType.Day_Start_Time_Min].points = 17 * 60;
         currentGameState.statuses[StatusType.Day_Start_Time_Max].points = 18 * 60;
+        currentGameState.statuses[StatusType.Rage_Gain_Modifier].points = 100;
     }
 
     private void informAboutUpdate()

@@ -7,12 +7,15 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
 
     public TextAsset nicknamesTextAsset;
     public TextAsset dailyEventsTextAsset;
+    public TextAsset watchEventsTextAsset;
 
     private Dictionary<string, List<GameEvent>> dailyEvents;
+    private List<GameEvent> watchEvents;
 
     void Start()
     {
         dailyEvents = JsonMapper.ToObject<Dictionary<string, List<GameEvent>>>(dailyEventsTextAsset.text);
+        watchEvents = JsonMapper.ToObject<List<GameEvent>>(watchEventsTextAsset.text);
 
         // TODO REMOVE BELOW
         Dictionary<string, List<GameEvent>> events = new Dictionary<string, List<GameEvent>>();
@@ -78,5 +81,10 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
             dailies = dailyEvents["random"];
         }
         return dailies[Random.Range(0, dailies.Count)];
+    }
+
+    public GameEvent GetWatchEvent()
+    {
+        return watchEvents[Random.Range(0, watchEvents.Count)];
     }
 }

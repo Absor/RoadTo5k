@@ -32,6 +32,7 @@ public class AttributeUiManagerScript : Singleton<AttributeUiManagerScript> {
         List<StatusType> attributes = new List<StatusType>();
         attributes.Add(StatusType.Charisma);
         attributes.Add(StatusType.Luck);
+        attributes.Add(StatusType.Talent);
         attributes.Add(StatusType.Knowledge_Carry);
         attributes.Add(StatusType.Knowledge_Ganker);
         attributes.Add(StatusType.Knowledge_Support);
