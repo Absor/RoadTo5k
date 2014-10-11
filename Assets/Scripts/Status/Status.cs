@@ -1,16 +1,16 @@
-﻿public enum StatusType
+﻿public enum StatusType : int
 {
-    Rage,
-    Charisma,
-    Luck,
-    Knowledge_Support,
-    Knowledge_Ganker,
-    Knowledge_Carry,
-    Time,
-    Skillpoints_Available,
-    Skillpoints_Assign_Amount,
-    Day_Start_Time_Min,
-    Day_Start_Time_Max
+    Rage = 1,
+    Charisma = 2,
+    Luck = 3,
+    Knowledge_Support = 4,
+    Knowledge_Ganker = 5,
+    Knowledge_Carry = 6,
+    Time = 7,
+    Skillpoints_Available = 8,
+    Skillpoints_Assign_Amount = 9,
+    Day_Start_Time_Min = 10,
+    Day_Start_Time_Max = 11
 }
 
 public static class StatusTypeExtensions

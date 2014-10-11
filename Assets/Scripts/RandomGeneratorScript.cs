@@ -64,7 +64,7 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
 
         string json = JsonMapper.ToJson(e);
 
-        //Debug.Log(json);
+        Debug.Log(json);
     }
 
     public GameEvent GetDailyEvent(int day)
