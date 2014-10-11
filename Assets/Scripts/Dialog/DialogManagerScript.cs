@@ -38,6 +38,15 @@ public class DialogManagerScript : Singleton<DialogManagerScript> {
                 done(option);
             });
             dialogButton.transform.parent = dialogButtonContainer.transform;
+            TooltipOnPointerOverScript tooltipScript = dialogButton.GetComponent<TooltipOnPointerOverScript>();
+            if (option.tooltipText != null)
+            {
+                tooltipScript.tooltipText = option.tooltipText;
+            }
+            else
+            {
+                Destroy(tooltipScript);
+            }
         });
 
         // Doesn't update parents instantly (content fitter doesn't notice), so wait a moment before showing

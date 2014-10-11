@@ -21,25 +21,18 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
 
     private void setGameStateDefaults()
     {
-        currentGameState.assignAmount = 4;
-        currentGameState.skillPointsAvailable = 100;
-        currentGameState.statuses = new Dictionary<StatusType,Status>();
+        currentGameState.statuses = new Dictionary<StatusType, Status>();
         StatusType[] types = Enum.GetValues(typeof(StatusType)) as StatusType[];
         foreach (StatusType type in types)
         {
             Status status = new Status(type, 0, 100);
             currentGameState.statuses.Add(type, status);
         }
-
-        currentGameState.time = new GameTime(1, 17, 30);
-        currentGameState.startOfNewDayTime = new GameTimeRange();
-        currentGameState.startOfNewDayTime.min = new GameTime(0, 17, 0);
-        currentGameState.startOfNewDayTime.max = new GameTime(0, 18, 0);
-    }
-
-    public void ApplyOutcome(GameEventOutcome outcome)
-    {
-        informAboutUpdate();
+        currentGameState.statuses[StatusType.Skillpoints_Assign_Amount].points = 4;
+        currentGameState.statuses[StatusType.Skillpoints_Available].points = 80;
+        currentGameState.statuses[StatusType.Time].points = 24 * 60 + 17 * 60 + 30;
+        currentGameState.statuses[StatusType.Day_Start_Time_Min].points = 17 * 60;
+        currentGameState.statuses[StatusType.Day_Start_Time_Max].points = 18 * 60;
     }
 
     private void informAboutUpdate()
@@ -49,7 +42,7 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
 
     public int GetAvailableSkillPoints()
     {
-        return currentGameState.skillPointsAvailable / currentGameState.assignAmount;
+        return currentGameState.statuses[StatusType.Skillpoints_Available].points / currentGameState.statuses[StatusType.Skillpoints_Assign_Amount].points;
     }
 
     public Status GetStatus(StatusType type)
@@ -62,23 +55,32 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         if (GameStateManagerScript.Instance.GetAvailableSkillPoints() > 0)
         {
             Status status = GetStatus(type);
-            status.points += currentGameState.assignAmount;
-            currentGameState.skillPointsAvailable -= currentGameState.assignAmount;
+            status.points += currentGameState.statuses[StatusType.Skillpoints_Assign_Amount].points;
+            currentGameState.statuses[StatusType.Skillpoints_Available].points -= currentGameState.statuses[StatusType.Skillpoints_Assign_Amount].points;
             informAboutUpdate();
         }
     }
 
-    internal GameTime GetGameTime()
+    public GameTime GetGameTime()
     {
-        return currentGameState.time;
+        int minutes = currentGameState.statuses[StatusType.Time].points;
+        return new GameTime(minutes / (60 * 24), minutes / 60 % 24, minutes % 60);
     }
 
-    internal void AdvanceToNextDay()
+    public void AdvanceToNextDay()
     {
-        currentGameState.time.day += 1;
-        GameTime newDayStartTime = currentGameState.startOfNewDayTime.GetTimeInRange();
-        currentGameState.time.hour = newDayStartTime.hour;
-        currentGameState.time.minute = newDayStartTime.minute;
+        int nextDay = currentGameState.statuses[StatusType.Time].points / (60 * 24) + 1;
+        int startMinutes = UnityEngine.Random.Range(currentGameState.statuses[StatusType.Day_Start_Time_Min].points, currentGameState.statuses[StatusType.Day_Start_Time_Max].points);
+        currentGameState.statuses[StatusType.Time].points = nextDay * 24 * 60 + startMinutes;
+        informAboutUpdate();
+    }
+
+    public void ApplyStatusChanges(List<StatusChange> changes)
+    {
+        foreach (StatusChange change in changes)
+        {
+            Debug.Log(change);
+        }
         informAboutUpdate();
     }
 }

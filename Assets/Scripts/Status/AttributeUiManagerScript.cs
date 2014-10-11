@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.EventSystems;
 
-public class StatusUIManagerScript : Singleton<StatusUIManagerScript> {
+public class AttributeUiManagerScript : Singleton<AttributeUiManagerScript> {
 
     public GameObject skillUI;
     public GameObject slidersContainer;
@@ -29,7 +29,13 @@ public class StatusUIManagerScript : Singleton<StatusUIManagerScript> {
         TooltipOnPointerOverScript rageTooltipScript = rageSlider.GetComponentInChildren<TooltipOnPointerOverScript>();
         tooltipScripts.Add(StatusType.Rage, rageTooltipScript);
 
-        foreach (StatusType type in Enum.GetValues(typeof(StatusType)) as StatusType[])
+        List<StatusType> attributes = new List<StatusType>();
+        attributes.Add(StatusType.Charisma);
+        attributes.Add(StatusType.Luck);
+        attributes.Add(StatusType.Knowledge_Carry);
+        attributes.Add(StatusType.Knowledge_Ganker);
+        attributes.Add(StatusType.Knowledge_Support);
+        foreach (StatusType type in attributes)
         {
             if (type != StatusType.Rage)
             {
@@ -43,7 +49,7 @@ public class StatusUIManagerScript : Singleton<StatusUIManagerScript> {
                 tooltipScripts.Add(type, tooltipScript);
                 StatusType saveType = type;
                 addButton.onClick.AddListener(() => addSkill(saveType));
-                sliderContainer.GetComponentInChildren<Text>().text = GameStateManagerScript.Instance.GetStatus(type).name;
+                sliderContainer.GetComponentInChildren<Text>().text = type.ToNiceString();
             }            
         }
 
@@ -97,7 +103,7 @@ public class StatusUIManagerScript : Singleton<StatusUIManagerScript> {
     {
         foreach (StatusType key in tooltipScripts.Keys)
         {
-            tooltipScripts[key].tooltipText = GameStateManagerScript.Instance.GetStatus(key).tooltipText;
+            tooltipScripts[key].tooltipText = key.ToNiceString();
         }
     }
 }

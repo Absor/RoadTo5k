@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameEventManagerScript : Singleton<GameEventManagerScript> {
 
@@ -8,20 +9,30 @@ public class GameEventManagerScript : Singleton<GameEventManagerScript> {
     public void ResolveGameEvent(GameEvent gameEvent)
     {
         currentEvent = gameEvent;
-        if (gameEvent.dialog != null)
+
+        currentEvent.Reset();
+
+        if (currentEvent.HasDialog())
         {
             DialogManagerScript.Instance.ShowDialog(currentEvent.dialog, checkOption);
+        }
+        else
+        {
+            chooseOption("random");
         }
     }
 
     private void checkOption(DialogOption option)
     {
-        GameEventOutcome outcome = currentEvent.outcomes[option.optionId];
-        if (outcome == null)
-        {
-            Debug.Log("GameEventOutcome was not in the GameEvent for DialogOption " + option.optionId);
-            return;
-        }
-        GameStateManagerScript.Instance.ApplyOutcome(outcome);
+        chooseOption(option.optionId);
+    }
+
+    private void chooseOption(string option)
+    {
+        List<StatusChange> statusChanges = new List<StatusChange>();
+
+        currentEvent.outcomes[option].ForEach(
+            (GameEventOutcome outcome) => statusChanges.Add(outcome.GetStatusChange()));
+        GameStateManagerScript.Instance.ApplyStatusChanges(statusChanges);
     }
 }
