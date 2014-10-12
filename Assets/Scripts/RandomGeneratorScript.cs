@@ -101,4 +101,17 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
 
         return new Player(rage, charisma, luck, talent, knowledgeCarry, knowledgeGanker, knowledgeSupport);
     }
+
+    public Hero GetRandomHero()
+    {
+        Hero hero = new Hero();
+        hero.damage = Random.Range(2, 4);
+        hero.healing = Random.Range(1, 3);
+        hero.maxhp = Random.Range(12, 15);
+        hero.initiative = Random.Range(1, 100);
+        hero.currenthp = hero.maxhp;
+
+        hero.player = GetRandomPlayer();
+        return hero;
+    }
 }

@@ -9,10 +9,6 @@ public class MatchScript : Singleton<MatchScript> {
     public GameObject gameScreen;
     public GameObject gameEndScreen;
 
-    public ChatManagerScript chatManagerScript;
-	public DialogManagerScript dialogManagerScript;
-    public FightManagerScript fightManagerScript;
-
     public Button gameScreenNextStepButton;
     public SliderInputScript sliderInputScript;
 
@@ -39,19 +35,14 @@ public class MatchScript : Singleton<MatchScript> {
 	public void StartMatch()
 	{
 		// Cleanup
-		chatManagerScript.EmptyChat();
+        ChatManagerScript.Instance.EmptyChat();
 
 		// Prepare new
 		matchState = new MatchState();
         // RANDOMIZE HEROES
         for (int i = 0; i < 10; i++)
         {
-            Hero hero = new Hero();
-            hero.damage = Random.Range(2, 4);
-            hero.healing = Random.Range(1, 3);
-            hero.maxhp = Random.Range(12, 15);
-			hero.initiative = Random.Range(1, 100);
-			hero.currenthp = hero.maxhp;
+            Hero hero = RandomGeneratorScript.Instance.GetRandomHero();
             if (i < 5)
             {
                 matchState.team1Heroes.Add(hero);
@@ -77,7 +68,7 @@ public class MatchScript : Singleton<MatchScript> {
 		ActivateScreen(gameScreen);
 
         // Reset fight manager (animations) has to be after activate to update animations
-        fightManagerScript.Reset();
+        FightManagerScript.Instance.Reset();
     }
 
     private void PlayNextStep()
@@ -111,14 +102,14 @@ public class MatchScript : Singleton<MatchScript> {
 
     private void playFightStep()
     {
-        StartCoroutine(fightManagerScript.PlayFightStep(matchState, fightResolved));
+        StartCoroutine(FightManagerScript.Instance.PlayFightStep(matchState, fightResolved));
     }
 
     private void playDialogStep()
     {
         Dialog dialog = new Dialog();
         dialog.dialogOptions.Add(new DialogOption());
-        dialogManagerScript.ShowDialog(dialog, dialogResolved);
+        DialogManagerScript.Instance.ShowDialog(dialog, dialogResolved);
     }
 
     private void dialogResolved(DialogOption option)

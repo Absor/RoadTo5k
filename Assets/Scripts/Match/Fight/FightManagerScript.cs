@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-public class FightManagerScript : MonoBehaviour {
+public class FightManagerScript : Singleton<FightManagerScript> {
 
     public FightAnimatorScript fightAnimatorScript;
 

@@ -16,6 +16,7 @@ public class Hero
 	public bool dead = false;
 
 	public int myTeamNo;
+    public Player player;
 
 	//once per match, set the sides for easier access
 	public void startFight(MatchState state) {
