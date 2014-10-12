@@ -110,6 +110,7 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
         hero.maxhp = Random.Range(12, 15);
         hero.initiative = Random.Range(1, 100);
         hero.currenthp = hero.maxhp;
+        hero.heroType = HeroType.Carry;
 
         hero.player = GetRandomPlayer();
         return hero;

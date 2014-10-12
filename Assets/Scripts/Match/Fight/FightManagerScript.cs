@@ -6,41 +6,46 @@ using System;
 
 public class FightManagerScript : Singleton<FightManagerScript> {
 
-    public FightAnimatorScript fightAnimatorScript;
-
     private bool fightEnded;
 
-    public IEnumerator PlayFightStep(MatchState matchState, Action done)
+    public void PlayFightStep()
     {
+        StartCoroutine(simulateFight());
+    }
+
+    private IEnumerator simulateFight()
+    {
+        MatchState matchState = MatchScript.Instance.matchState;
         List<Hero> team1Heroes = matchState.team1Heroes;
         List<Hero> team2Heroes = matchState.team2Heroes;
-		List<Hero> matchHeroes = matchState.matchHeroes;
+        List<Hero> matchHeroes = matchState.matchHeroes;
         //int team1Hp = countTotalHeroHealth(team1Heroes);
-       // int team2Hp = countTotalHeroHealth(team2Heroes);
+        // int team2Hp = countTotalHeroHealth(team2Heroes);
 
         int turn = 1;
         bool playing = true;
 
-		matchState.newFight();
+        matchState.newFight();
 
-		foreach (Hero hero in matchHeroes)
-		{
-			hero.startFight(matchState);
-		}
+        foreach (Hero hero in matchHeroes)
+        {
+            hero.startFight(matchState);
+        }
 
         while (playing)
         {
-			Debug.Log("Turn " +turn+ "start | " + matchState.ToString());
-			matchHeroes.OrderBy(o=>o.initiative);
-			foreach (Hero hero in matchHeroes)
-			{
-				if (!hero.dead && !matchState.AnyTeamDead())
-				{
-					Debug.Log(matchState.AnyTeamDead());
-					hero.fightAction(matchState);
-				}
-			}
-			/*
+            Debug.Log("Turn " + turn + "start | " + matchState.ToString());
+            matchHeroes.OrderBy(o => o.initiative);
+            foreach (Hero hero in matchHeroes)
+            {
+                if (!hero.dead && !matchState.AnyTeamDead())
+                {
+                    Debug.Log(matchState.AnyTeamDead());
+                    hero.fightAction(matchState);
+                }
+            }
+            yield return 0;
+            /*
             int team1Damage = countTotalHeroDamage(team1Heroes);
             int team2Damage = countTotalHeroDamage(team2Heroes);
             int team1Healing = countTotalHeroHealing(team1Heroes);
@@ -54,21 +59,24 @@ public class FightManagerScript : Singleton<FightManagerScript> {
                 playing = false;
             }*/
 
-			if (turn >= 20 || matchState.AnyTeamDead())
-			{
-				playing = false;
-			}
+            if (turn >= 20 || matchState.AnyTeamDead())
+            {
+                playing = false;
+            }
 
             turn++;
-			Debug.Log("Turn " +(turn-1)+ "end | " + matchState.ToString());
-            yield return null;
+            Debug.Log("Turn " + (turn - 1) + "end | " + matchState.ToString());
         }
 
-		Debug.Log("FIGHT ENDED, team1 deaths: " + matchState.Team1CurrentlyDead() + " team2 deaths: " + matchState.Team2CurrentlyDead());
+        Debug.Log("FIGHT ENDED, team1 deaths: " + matchState.Team1CurrentlyDead() + " team2 deaths: " + matchState.Team2CurrentlyDead());
         // TODO null to fight event list
-        StartCoroutine(fightAnimatorScript.PlayFight(null, done));
+        FightAnimatorScript.Instance.PlayFight(null);
     }
 
+    public void AnimationDone()
+    {
+        MatchScript.Instance.FightResolved();
+    }
 	/*
     private int countTotalHeroHealth(List<Hero> heroes)
     {
@@ -102,6 +110,6 @@ public class FightManagerScript : Singleton<FightManagerScript> {
 
     public void Reset()
     {
-        fightAnimatorScript.Reset();
+        FightAnimatorScript.Instance.Reset();
     }
 }

@@ -10,13 +10,14 @@ public class MatchScript : Singleton<MatchScript> {
     public GameObject gameEndScreen;
 
     public Button gameScreenNextStepButton;
-    public SliderInputScript sliderInputScript;
+	public MatchState matchState;
 
-	private MatchState matchState;
+    private SliderInputScript sliderInputScript;
 
-    void Start()
+    void Awake()
     {
         gameScreenNextStepButton.onClick.AddListener(nextStepButtonPressed);
+        sliderInputScript = GetComponentInChildren<SliderInputScript>();
     }
 
     private void nextStepButtonPressed()
@@ -36,63 +37,34 @@ public class MatchScript : Singleton<MatchScript> {
 	{
 		// Cleanup
         ChatManagerScript.Instance.EmptyChat();
-
 		// Prepare new
 		matchState = new MatchState();
-        // RANDOMIZE HEROES
-        for (int i = 0; i < 10; i++)
-        {
-            Hero hero = RandomGeneratorScript.Instance.GetRandomHero();
-            if (i < 5)
-            {
-                matchState.team1Heroes.Add(hero);
-            }
-            else
-            {
-                matchState.team2Heroes.Add(hero);
-            }
-			matchState.matchHeroes.Add(hero);
-        }
-
-		ActivateScreen(heroPickScreen);
-	}
-	
-	public void PickHero()
-	{
-
+        ActivateScreen(heroPickScreen);
+        HeroPickManagerScript.Instance.StartNewHeroPick();
 	}
 
 	public void HeroPickReady()
 	{
-		// Check if hero is picked and so on...
 		ActivateScreen(gameScreen);
-
         // Reset fight manager (animations) has to be after activate to update animations
         FightManagerScript.Instance.Reset();
     }
 
     private void PlayNextStep()
     {
-        // Win condition whatevers, could be inside fightmanager or dialogmanager
-        if (matchState.dialogsPlayed >= 3 && matchState.fightsPlayed >= 3)
+        matchState.gankValue = sliderInputScript.GetGank();
+        matchState.farmValue = sliderInputScript.GetFarm();
+        matchState.pushValue = sliderInputScript.GetPush();
+        // Dialog or Fight
+        if (Random.Range(0, 2) == 0)
         {
-            matchState.isWon = true;
+            playDialogStep();
         }
-
-        if (matchState.isWon) {
-            matchWon(); // Could go through button too if we dont want to show end screen immediately (public)
-        } else {
-            // Dialog or Fight
-            if (Random.Range(0, 2) == 0)
-            {
-                playDialogStep();
-            }
-            else
-            {
-                playFightStep();
-            }
-            // or who knows what based on matchState
+        else
+        {
+            playFightStep();
         }
+        // or who knows what based on matchState
     }
 
     public void InteractWithChat()
@@ -102,7 +74,7 @@ public class MatchScript : Singleton<MatchScript> {
 
     private void playFightStep()
     {
-        StartCoroutine(FightManagerScript.Instance.PlayFightStep(matchState, fightResolved));
+        FightManagerScript.Instance.PlayFightStep();
     }
 
     private void playDialogStep()
@@ -116,12 +88,28 @@ public class MatchScript : Singleton<MatchScript> {
     {
         matchState.dialogsPlayed++;
         gameScreenNextStepButton.gameObject.SetActive(true);
+        checkForVictory();
     }
 
-    private void fightResolved()
+    public void FightResolved()
     {
         matchState.fightsPlayed++;
         gameScreenNextStepButton.gameObject.SetActive(true);
+        checkForVictory();
+    }
+
+    private void checkForVictory()
+    {
+        // Win condition whatevers, could be inside fightmanager or dialogmanager
+        if (matchState.dialogsPlayed >= 3 && matchState.fightsPlayed >= 3)
+        {
+            matchState.isWon = true;
+        }
+
+        if (matchState.isWon)
+        {
+            matchWon(); // Could go through button too if we dont want to show end screen immediately (public)
+        }
     }
 
     private void matchWon()

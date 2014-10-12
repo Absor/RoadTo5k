@@ -2,6 +2,13 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+public enum HeroType
+{
+    Carry,
+    Ganker,
+    Support
+}
+
 public class Hero
 {
 	public string name = "uliuli"; 	//TODO: get these generated from somewhere
@@ -17,6 +24,7 @@ public class Hero
 
 	public int myTeamNo;
     public Player player;
+    public HeroType heroType;
 
 	//once per match, set the sides for easier access
 	public void startFight(MatchState state) {

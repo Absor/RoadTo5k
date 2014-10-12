@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class FightAnimatorScript : MonoBehaviour {
+public class FightAnimatorScript : Singleton<FightAnimatorScript> {
 
     public GameObject characterPrefab;
 
@@ -98,7 +98,12 @@ public class FightAnimatorScript : MonoBehaviour {
         }
     }
 
-    public IEnumerator PlayFight(List<FightEvent> fightEvents, Action Done)
+    public void PlayFight(List<FightEvent> fightEvents)
+    {
+        StartCoroutine(animateFight(fightEvents));
+    }
+
+    private IEnumerator animateFight(List<FightEvent> fightEvents)
     {
         // TODO REMOVE BELOW
         fightEvents = new List<FightEvent>();
@@ -128,7 +133,7 @@ public class FightAnimatorScript : MonoBehaviour {
             yield return new WaitForSeconds(animationDuration);
         }
 
-        Done();
+        FightManagerScript.Instance.AnimationDone();
     }
 
     // returns fight event animation duration
