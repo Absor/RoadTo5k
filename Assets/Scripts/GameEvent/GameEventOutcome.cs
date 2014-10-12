@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameEventOutcome
@@ -7,8 +8,9 @@ public class GameEventOutcome
     public bool replace;
     public int min;
     public int max;
-    public int baseChance;
+    public double baseChance;
     public double luckModifier;
+    public bool permanent;
 
     private StatusChange resolvedChange;
 
@@ -16,21 +18,24 @@ public class GameEventOutcome
     {
         resolvedChange = new StatusChange();
         resolvedChange.statusType = statusType;
-        resolvedChange.value = Random.Range(min, max + 1);
+        resolvedChange.permanent = permanent;
+        resolvedChange.replace = replace;
+        // TODO chance, also in tooltip
+        resolvedChange.value = UnityEngine.Random.Range(min, max + 1);
     }
 
     public string GetTooltipText()
     {
-        int chance = getChance();
+        double chance = getChance();
         if (chance <= 0)
         {
             return "";
         }
-        else if (chance >= 100)
+        else if (chance >= 1)
         {
             return formatInt(resolvedChange.value) + " " + statusType.ToNiceString();
         }
-        return chance + "% chance for " + formatInt(min) + " to " + formatInt(max) + " of " + statusType.ToNiceString();
+        return Math.Round(chance * 100, 1) + "% chance for " + formatInt(min) + " to " + formatInt(max) + " of " + statusType.ToNiceString();
     }
 
     public StatusChange GetStatusChange()
@@ -38,9 +43,9 @@ public class GameEventOutcome
         return resolvedChange;
     }
 
-    private int getChance()
+    private double getChance()
     {
-        return baseChance + (int)(luckModifier * GameStateManagerScript.Instance.GetStatus(StatusType.Luck).points);
+        return baseChance + luckModifier * GameStateManagerScript.Instance.GetStatus(StatusType.Luck).GetNormalizedPoints();
     }
 
     private string formatInt(int value)

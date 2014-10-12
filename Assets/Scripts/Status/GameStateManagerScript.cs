@@ -22,10 +22,11 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
     private void setGameStateDefaults()
     {
         currentGameState.statuses = new Dictionary<StatusType, Status>();
+        currentGameState.temporaryChanges = new List<StatusChange>();
         StatusType[] types = Enum.GetValues(typeof(StatusType)) as StatusType[];
         foreach (StatusType type in types)
         {
-            Status status = new Status(type, 0, 100);
+            Status status = new Status(type, 20, 100);
             currentGameState.statuses.Add(type, status);
         }
         currentGameState.statuses[StatusType.Skillpoints_Assign_Amount].points = 4;
@@ -80,8 +81,54 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
     {
         foreach (StatusChange change in changes)
         {
-            Debug.Log(change);
+            if (!change.permanent)
+            {
+                if (change.replace)
+                {
+                    Status old = GetStatus(change.statusType);
+                    int oldValue = old.points;
+                    applyStatusChange(change);
+                    change.value = oldValue;
+                    currentGameState.temporaryChanges.Add(change);
+                }
+                else
+                {
+                    applyStatusChange(change);
+                    change.value = -change.value;
+                    currentGameState.temporaryChanges.Add(change);
+                }
+            }
+            else
+            {
+                applyStatusChange(change);
+            }
         }
         informAboutUpdate();
+    }
+
+    private void applyStatusChange(StatusChange change)
+    {
+        Status status = GetStatus(change.statusType);
+        if (change.replace)
+        {
+            status.points = change.value;
+        }
+        else
+        {
+            status.points += change.value;
+        }
+    }
+
+    public Player GetRealPlayer()
+    {
+        float rage = currentGameState.statuses[StatusType.Rage].GetNormalizedPoints();
+        float charisma = currentGameState.statuses[StatusType.Charisma].GetNormalizedPoints();
+        float luck = currentGameState.statuses[StatusType.Luck].GetNormalizedPoints();
+        float talent = currentGameState.statuses[StatusType.Talent].GetNormalizedPoints();
+        float knowledgeCarry = currentGameState.statuses[StatusType.Knowledge_Carry].GetNormalizedPoints();
+        float knowledgeGanker = currentGameState.statuses[StatusType.Charisma].GetNormalizedPoints();
+        float knowledgeSupport = currentGameState.statuses[StatusType.Charisma].GetNormalizedPoints();
+
+        return new Player(rage, charisma, luck, talent, knowledgeCarry, knowledgeGanker, knowledgeSupport);
     }
 }

@@ -51,7 +51,7 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
         o.min = 2;
         o.max = 4;
         o.statusType = StatusType.Knowledge_Carry;
-        o.baseChance = 100;
+        o.baseChance = 0.5;
         o.luckModifier = 0;
 
         List<GameEventOutcome> os = new List<GameEventOutcome>();
@@ -86,5 +86,19 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
     public GameEvent GetWatchEvent()
     {
         return watchEvents[Random.Range(0, watchEvents.Count)];
+    }
+
+    public Player GetRandomPlayer()
+    {
+        // TODO rating based?
+        float rage = Random.Range(0f, 1f);
+        float charisma = Random.Range(0f, 1f);
+        float luck = Random.Range(0f, 1f);
+        float talent = Random.Range(0f, 1f);
+        float knowledgeCarry = Random.Range(0f, 1f);
+        float knowledgeGanker = Random.Range(0f, 1f);
+        float knowledgeSupport = Random.Range(0f, 1f);
+
+        return new Player(rage, charisma, luck, talent, knowledgeCarry, knowledgeGanker, knowledgeSupport);
     }
 }
