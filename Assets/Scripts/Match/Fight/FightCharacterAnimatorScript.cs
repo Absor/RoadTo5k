@@ -48,4 +48,9 @@ public class FightCharacterAnimatorScript : MonoBehaviour {
     {
         animator.SetBool("dead", false);
     }
+
+    internal void Resurrect()
+    {
+        animator.SetBool("dead", false);
+    }
 }

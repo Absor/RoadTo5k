@@ -41,6 +41,7 @@ public class MatchScript : Singleton<MatchScript> {
 		matchState = new MatchState();
         ActivateScreen(heroPickScreen);
         HeroPickManagerScript.Instance.StartNewHeroPick();
+        MusicManagerScript.Instance.ChangeMusicType(MusicType.Battle);
 	}
 
 	public void HeroPickReady()
@@ -79,12 +80,10 @@ public class MatchScript : Singleton<MatchScript> {
 
     private void playDialogStep()
     {
-        Dialog dialog = new Dialog();
-        dialog.dialogOptions.Add(new DialogOption());
-        DialogManagerScript.Instance.ShowDialog(dialog, dialogResolved);
+        MatchEventManagerScript.Instance.DecideEvent(matchState);
     }
 
-    private void dialogResolved(DialogOption option)
+    public void DialogResolved()
     {
         matchState.dialogsPlayed++;
         gameScreenNextStepButton.gameObject.SetActive(true);
@@ -115,5 +114,6 @@ public class MatchScript : Singleton<MatchScript> {
     private void matchWon()
     {
         ActivateScreen(gameEndScreen);
+        MusicManagerScript.Instance.ChangeMusicType(MusicType.Theme);
     }
 }
