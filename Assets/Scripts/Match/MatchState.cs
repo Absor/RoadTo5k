@@ -132,5 +132,4 @@ public class MatchState {
 	{	
 		return Team1Dead() || Team2Dead();
 	}
-
 }

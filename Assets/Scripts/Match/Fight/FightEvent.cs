@@ -14,7 +14,10 @@ public class FightEventTarget
 public enum FightEventType
 {
     JOIN_FIGHT,
-    LEAVE_FIGHT
+    LEAVE_FIGHT,
+    JOIN_COMBAT,
+    LEAVE_COMBAT,
+    DEATH
 }
 
 public class FightEvent

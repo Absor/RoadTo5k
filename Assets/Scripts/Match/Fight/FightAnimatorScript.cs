@@ -122,6 +122,21 @@ public class FightAnimatorScript : Singleton<FightAnimatorScript> {
         target.id = 6;
         join.targets.Add(target);
         fightEvents.Add(join);
+        
+        FightEvent joinCombat = new FightEvent();
+        joinCombat.eventType = FightEventType.DEATH;
+        target = new FightEventTarget();
+        target.targetType = FightEventTargetType.HERO;
+        target.id = 3;
+        joinCombat.targets.Add(target);
+
+        target = new FightEventTarget();
+        target.targetType = FightEventTargetType.HERO;
+        target.id = 6;
+        joinCombat.targets.Add(target);
+
+        fightEvents.Add(joinCombat);
+
         FightEvent leave = new FightEvent();
         leave.eventType = FightEventType.LEAVE_FIGHT;
         fightEvents.Add(leave);
@@ -130,26 +145,79 @@ public class FightAnimatorScript : Singleton<FightAnimatorScript> {
         foreach (FightEvent fightEvent in fightEvents)
         {
             float animationDuration = playEventAnimation(fightEvent);
-            yield return new WaitForSeconds(animationDuration);
+            yield return new WaitForSeconds(animationDuration + 0.2f);
         }
 
+        playerResurrectAnimations();
+
         FightManagerScript.Instance.AnimationDone();
+    }
+
+    private void playerResurrectAnimations()
+    {
+        foreach(FightCharacter character in fightCharacters) {
+            character.animatorScript.Resurrect();
+        }
     }
 
     // returns fight event animation duration
     private float playEventAnimation(FightEvent fightEvent)
     {
+        Debug.Log(fightEvent.eventType.ToString());
         switch (fightEvent.eventType)
         {
             case FightEventType.JOIN_FIGHT:
-                return playJoinAnimations(fightEvent.targets);
+                return playJoinFightAnimations(fightEvent.targets);
             case FightEventType.LEAVE_FIGHT:
-                return playLeaveAnimations();
+                return playLeaveFightAnimations();
+            case FightEventType.JOIN_COMBAT:
+                return playJoinCombatAnimations(fightEvent.targets);
+            case FightEventType.DEATH:
+                return playDeathAnimations(fightEvent.targets);
         }
         return 0;
     }
 
-    private float playLeaveAnimations()
+    private float playDeathAnimations(List<FightEventTarget> targetList)
+    {
+        foreach (FightEventTarget target in targetList)
+        {
+            FightCharacter character = fightCharacters[target.id];
+            character.animatorScript.Die();
+        }
+
+        return 1f;
+    }
+
+    private float playJoinCombatAnimations(List<FightEventTarget> targetList)
+    {
+        if (targetList.Count != 2)
+        {
+            return 0;
+        }
+        float maxAnimationDuration = 0;
+
+        FightCharacter character = fightCharacters[targetList[0].id];
+        // Old as animation start
+        character.animationFromX = character.gridX;
+        character.animationFromY = character.gridY;
+        // Set new location (target)
+        character.gridY = combatRow;
+        character.gridX = -1;
+        // TODO if we want to group together in X
+        // Set animation target
+        character.animationToX = character.gridX;
+        character.animationToY = character.gridY;
+        float animationDuration = playJoinAnimation(character);
+        if (animationDuration > maxAnimationDuration)
+        {
+            maxAnimationDuration = animationDuration;
+        }
+
+        return maxAnimationDuration;
+    }
+
+    private float playLeaveFightAnimations()
     {
         float maxAnimationDuration = 0;
 
@@ -179,7 +247,7 @@ public class FightAnimatorScript : Singleton<FightAnimatorScript> {
     }
 
     // returns max join animation duration
-    private float playJoinAnimations(List<FightEventTarget> targetList)
+    private float playJoinFightAnimations(List<FightEventTarget> targetList)
     {
         float maxAnimationDuration = 0;
 
@@ -243,17 +311,17 @@ public class FightAnimatorScript : Singleton<FightAnimatorScript> {
             verticalDirection = startDirection;
         }
 
+        character.animatorScript.Walk();
+
         if (horizontalFirst)
         {
             character.animatorScript.Face(horizontalDirection);
-            character.animatorScript.Walk();
 
             float animationDuration = horizontalMoveAnimationDuration(character);
             StartCoroutine(horizontalMoveAnimation(character));
             yield return new WaitForSeconds(animationDuration);
 
             character.animatorScript.Face(verticalDirection);
-            character.animatorScript.Walk();
 
             animationDuration = verticalMoveAnimationDuration(character);
             StartCoroutine(verticalMoveAnimation(character));
@@ -262,14 +330,12 @@ public class FightAnimatorScript : Singleton<FightAnimatorScript> {
         else
         {
             character.animatorScript.Face(verticalDirection);
-            character.animatorScript.Walk();
 
             float animationDuration = verticalMoveAnimationDuration(character);
             StartCoroutine(verticalMoveAnimation(character));
             yield return new WaitForSeconds(animationDuration);
 
             character.animatorScript.Face(horizontalDirection);
-            character.animatorScript.Walk();
 
             animationDuration = horizontalMoveAnimationDuration(character);
             StartCoroutine(horizontalMoveAnimation(character));
