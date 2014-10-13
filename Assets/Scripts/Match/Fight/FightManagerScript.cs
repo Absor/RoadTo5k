@@ -7,9 +7,11 @@ using System;
 public class FightManagerScript : Singleton<FightManagerScript> {
 
     private bool fightEnded;
+    private List<FightEvent> fightEvents;
 
     public void PlayFightStep()
     {
+        fightEvents = new List<FightEvent>();
         StartCoroutine(simulateFight());
     }
 
@@ -71,7 +73,43 @@ public class FightManagerScript : Singleton<FightManagerScript> {
 
         Debug.Log("FIGHT ENDED, team1 deaths: " + matchState.Team1CurrentlyDead() + " team2 deaths: " + matchState.Team2CurrentlyDead());
         // TODO null to fight event list
-        FightAnimatorScript.Instance.PlayFight(null);
+
+        // TODO REMOVE BELOW
+        FightEvent join = new FightEvent();
+        join.eventType = FightEventType.JOIN_FIGHT;
+        FightEventTarget target = new FightEventTarget();
+        target.targetType = FightEventTargetType.HERO;
+        target.id = 0;
+        join.targets.Add(target);
+        target = new FightEventTarget();
+        target.targetType = FightEventTargetType.HERO;
+        target.id = 3;
+        join.targets.Add(target);
+        target = new FightEventTarget();
+        target.targetType = FightEventTargetType.HERO;
+        target.id = 6;
+        join.targets.Add(target);
+        fightEvents.Add(join);
+
+        FightEvent joinCombat = new FightEvent();
+        joinCombat.eventType = FightEventType.DEATH;
+        target = new FightEventTarget();
+        target.targetType = FightEventTargetType.HERO;
+        target.id = 3;
+        joinCombat.targets.Add(target);
+
+        target = new FightEventTarget();
+        target.targetType = FightEventTargetType.HERO;
+        target.id = 6;
+        joinCombat.targets.Add(target);
+
+        fightEvents.Add(joinCombat);
+
+        FightEvent leave = new FightEvent();
+        leave.eventType = FightEventType.LEAVE_FIGHT;
+        fightEvents.Add(leave);
+        // TODO REMOVE ABOVE
+        FightAnimatorScript.Instance.PlayFight(fightEvents);
     }
 
     public void AnimationDone()
