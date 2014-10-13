@@ -26,6 +26,10 @@ public class Hero
     public Player player;
     public HeroType heroType;
 
+    public float gank;
+    public float farm;
+    public float push;
+
 	//once per match, set the sides for easier access
 	public void startFight(MatchState state) {
 		dead = false;		//if you've been selected for a fight, you most likely shouldn't be dead

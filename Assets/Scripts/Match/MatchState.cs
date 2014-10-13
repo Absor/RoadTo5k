@@ -12,9 +12,6 @@ public class MatchState {
     public int matchMinutes;
     public int dialogsPlayed;
     public int fightsPlayed;
-    public float gankValue;
-    public float farmValue;
-    public float pushValue;
 
 	public MatchState()
 	{
