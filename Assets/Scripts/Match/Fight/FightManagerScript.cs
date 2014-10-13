@@ -41,7 +41,8 @@ public class FightManagerScript : Singleton<FightManagerScript> {
                 if (!hero.dead && !matchState.AnyTeamDead())
                 {
                     Debug.Log(matchState.AnyTeamDead());
-                    hero.fightAction(matchState);
+					Debug.Log("Total farm in team 1 : " + matchState.getMyTeamFarmSliderTotal(1));
+                    hero.fightAction();
                 }
             }
             yield return 0;

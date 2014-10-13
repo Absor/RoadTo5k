@@ -1,5 +1,6 @@
 ﻿public enum StatusType : int
 {
+	Rating = 0,
     Rage = 1,
     Charisma = 2,
     Luck = 3,

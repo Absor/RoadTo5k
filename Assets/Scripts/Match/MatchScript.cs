@@ -52,9 +52,19 @@ public class MatchScript : Singleton<MatchScript> {
 
     private void PlayNextStep()
     {
-        matchState.matchHeroes[0].gank = sliderInputScript.GetGank();
-        matchState.matchHeroes[0].farm = sliderInputScript.GetFarm();
-        matchState.matchHeroes[0].push = sliderInputScript.GetPush();
+		int loop = 0;
+		foreach (Hero hero in matchState.matchHeroes) {
+			if (loop == 0) {
+				matchState.matchHeroes[0].gank = sliderInputScript.GetGank();
+				matchState.matchHeroes[0].farm = sliderInputScript.GetFarm();
+				matchState.matchHeroes[0].push = sliderInputScript.GetPush();
+			} else {
+				matchState.matchHeroes[loop].setSliders();
+			}
+			loop++;
+		}
+
+
         // Dialog or Fight
         if (Random.Range(0, 2) == 0)
         {

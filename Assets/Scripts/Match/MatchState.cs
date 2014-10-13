@@ -40,6 +40,22 @@ public class MatchState {
 		else
 			return team2FightHeroes;
 	}
+
+	public float getMyTeamFarmSliderTotal(int teamNo)
+	{
+		float totalFarmSlider = 0;
+		if (teamNo == 1) {
+			foreach (Hero hero in team1Heroes) {
+				totalFarmSlider += hero.farm;
+			}
+		} else {
+			foreach (Hero hero in team2Heroes)
+				totalFarmSlider += hero.farm + hero.gank + hero.push;
+		}
+
+		return totalFarmSlider;
+	}
+
 	public List<Hero> getEnemyFightTeam(int teamNo)
 	{
 		if (teamNo == 1)
