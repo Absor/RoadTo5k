@@ -6,7 +6,7 @@ public class PortraitScript : MonoBehaviour {
 
     private Text text;
 
-	void Start () {
+	void Awake () {
         text = GetComponentInChildren<Text>();
 	}
 
