@@ -105,43 +105,6 @@ public class FightAnimatorScript : Singleton<FightAnimatorScript> {
 
     private IEnumerator animateFight(List<FightEvent> fightEvents)
     {
-        // TODO REMOVE BELOW
-        fightEvents = new List<FightEvent>();
-        FightEvent join = new FightEvent();
-        join.eventType = FightEventType.JOIN_FIGHT;
-        FightEventTarget target = new FightEventTarget();
-        target.targetType = FightEventTargetType.HERO;
-        target.id = 0;
-        join.targets.Add(target);
-        target = new FightEventTarget();
-        target.targetType = FightEventTargetType.HERO;
-        target.id = 3;
-        join.targets.Add(target);
-        target = new FightEventTarget();
-        target.targetType = FightEventTargetType.HERO;
-        target.id = 6;
-        join.targets.Add(target);
-        fightEvents.Add(join);
-        
-        FightEvent joinCombat = new FightEvent();
-        joinCombat.eventType = FightEventType.DEATH;
-        target = new FightEventTarget();
-        target.targetType = FightEventTargetType.HERO;
-        target.id = 3;
-        joinCombat.targets.Add(target);
-
-        target = new FightEventTarget();
-        target.targetType = FightEventTargetType.HERO;
-        target.id = 6;
-        joinCombat.targets.Add(target);
-
-        fightEvents.Add(joinCombat);
-
-        FightEvent leave = new FightEvent();
-        leave.eventType = FightEventType.LEAVE_FIGHT;
-        fightEvents.Add(leave);
-        // TODO REMOVE ABOVE
-
         foreach (FightEvent fightEvent in fightEvents)
         {
             float animationDuration = playEventAnimation(fightEvent);
