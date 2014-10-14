@@ -8,6 +8,8 @@ public class MatchState {
 	public List<Hero> team1FightHeroes;
 	public List<Hero> team2FightHeroes;
 	public List<Hero> matchHeroes;
+	public List<Hero> fightDeadHeroes;
+	public List<Hero> fightAllHeroes;
     public bool isWon;
     public int matchMinutes;
     public int dialogsPlayed;
@@ -25,12 +27,18 @@ public class MatchState {
 
 	public void newFight()
 	{
+		fightDeadHeroes = new List<Hero>();
 
 		team1FightHeroes = new List<Hero>();
 		team1FightHeroes.AddRange(team1Heroes);
 
 		team2FightHeroes = new List<Hero>();
 		team2FightHeroes.AddRange(team2Heroes);
+
+		fightAllHeroes = new List<Hero>();
+		fightAllHeroes.AddRange(team1FightHeroes);
+		fightAllHeroes.AddRange(team2FightHeroes);
+
 	}
 
 	public List<Hero> getMyFightTeam(int teamNo)
@@ -66,6 +74,7 @@ public class MatchState {
 
 	public void heroDied(Hero hero)
 	{
+		fightDeadHeroes.Add(hero);
 		hero.dead = true;
 		if (team1Heroes.Contains(hero))
 			team1FightHeroes.Remove(hero);

@@ -11,6 +11,8 @@ public enum HeroType
 
 public class Hero
 {
+	public int id;
+
 	public string name = "uliuli"; 	//TODO: get these generated from somewhere
 	public int initiative; 			//the bigger the number, the better the chances of going first in a fight
 	public int maxhp;
@@ -45,7 +47,7 @@ public class Hero
 
 	public void fightAction() {
 		//get some basic idea what's going on in the match, choose your action and the target for it
-		Hero currentTarget = state.getEnemyFightTeam(myTeamNo)[(Random.Range(0, state.getEnemyFightTeam(myTeamNo).Count- 1))];
+		Hero currentTarget = state.getEnemyFightTeam(myTeamNo)[(Random.Range(0, state.getEnemyFightTeam(myTeamNo).Count))];
 		foreach (Hero hero in state.getMyFightTeam(myTeamNo))
 		{
 			//check need for defensive actions
@@ -60,6 +62,8 @@ public class Hero
 
 	public void autoAttack(Hero target)
 	{
+		if (target.myTeamNo == myTeamNo)
+			Debug.Log ("eijumalauta*****************");
 		target.currenthp -= damage;
 		if (target.currenthp <= 0)
 		{

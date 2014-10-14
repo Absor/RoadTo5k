@@ -67,7 +67,7 @@ public class MatchScript : Singleton<MatchScript> {
 
 
         // Dialog or Fight
-        if (Random.Range(0, 2) == 0)
+        if (Random.Range(0, 10) == 0)
         {
             playDialogStep();
         }
