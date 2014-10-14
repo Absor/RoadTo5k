@@ -27,12 +27,7 @@ public class FightManagerScript : Singleton<FightManagerScript> {
         int turn = 1;
         bool playing = true;
 
-        matchState.newFight();
-
-        foreach (Hero hero in matchHeroes)
-        {
-            hero.startFight(matchState);
-        }
+        //matchState.newFight();
 
         while (playing)
         {
@@ -71,7 +66,7 @@ public class FightManagerScript : Singleton<FightManagerScript> {
             Debug.Log("Turn " + (turn - 1) + "end | " + matchState.ToString());
         }
 
-        Debug.Log("FIGHT ENDED, team1 deaths: " + matchState.Team1CurrentlyDead() + " team2 deaths: " + matchState.Team2CurrentlyDead());
+		Debug.Log("FIGHT ENDED, team1 deaths: " + matchState.TeamCurrentlyDeadInFight(1) + " team2 deaths: " + matchState.TeamCurrentlyDeadInFight(2));
     
 		animateFight(matchState);
         

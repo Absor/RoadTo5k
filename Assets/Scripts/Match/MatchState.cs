@@ -39,6 +39,39 @@ public class MatchState {
 		fightAllHeroes.AddRange(team1FightHeroes);
 		fightAllHeroes.AddRange(team2FightHeroes);
 
+		foreach (Hero hero in fightAllHeroes)
+		{
+			hero.startFight();
+		}
+
+	}
+
+	public void newFight(List<Hero> team1Participants, List<Hero> team2Participants)
+	{
+		fightDeadHeroes = new List<Hero>();
+		
+		team1FightHeroes = new List<Hero>();
+		team1FightHeroes.AddRange(team1Participants);
+		
+		team2FightHeroes = new List<Hero>();
+		team2FightHeroes.AddRange(team2Participants);
+		
+		fightAllHeroes = new List<Hero>();
+		fightAllHeroes.AddRange(team1FightHeroes);
+		fightAllHeroes.AddRange(team2FightHeroes);
+		
+		foreach (Hero hero in fightAllHeroes)
+		{
+			hero.startFight(); //currently just sets everyone alive and full hp
+		}
+		
+	}
+
+	public void resetFight() {
+		fightDeadHeroes = new List<Hero>();
+		team1FightHeroes = new List<Hero>();
+		team2FightHeroes = new List<Hero>();
+		fightAllHeroes = new List<Hero>();
 	}
 
 	public List<Hero> getMyFightTeam(int teamNo)
@@ -58,10 +91,27 @@ public class MatchState {
 			}
 		} else {
 			foreach (Hero hero in team2Heroes)
-				totalFarmSlider += hero.farm + hero.gank + hero.push;
+				totalFarmSlider += hero.farm;
 		}
 
 		return totalFarmSlider;
+	}
+
+	public Hero teamHighestFarmer(int teamNo) {
+		Hero highest;
+		if (teamNo == 1) {
+			highest = team1Heroes[0];
+			foreach (Hero hero in team1Heroes) {
+				if (hero.farm > highest.farm)
+					highest = hero;
+			}
+		} else {
+			highest = team2Heroes[0];
+			foreach (Hero hero in team2Heroes)
+				if (hero.farm > highest.farm)
+					highest = hero;
+		}
+		return highest;
 	}
 
 	public List<Hero> getEnemyFightTeam(int teamNo)
@@ -84,8 +134,8 @@ public class MatchState {
 
 	public string ToString()
 	{
-		string str = "";
-		foreach (Hero hero in matchHeroes)
+		string str = "Participants, team 1 *" + team1FightHeroes.Count + "* team 2 *" + team2FightHeroes.Count + "* ";
+		foreach (Hero hero in fightAllHeroes)
 		{
 			str += " " + hero.ToString();
 		}
@@ -94,25 +144,25 @@ public class MatchState {
 
 	public bool Team1Dead()
 	{
-		bool wholeTeamDead = true;
+		bool allFightersDead = true;
 		foreach (Hero hero in team1FightHeroes)
 		{
 			if (!hero.dead)
-				wholeTeamDead = false;
+				allFightersDead = false;
 		}
-		return wholeTeamDead;
+		return allFightersDead;
 
 
 	}
 	public bool Team2Dead()
 	{
-		bool wholeTeamDead = true;
+		bool allFightersDead = true;
 		foreach (Hero hero in team2FightHeroes)
 		{
 			if (!hero.dead)
-				wholeTeamDead = false;
+				allFightersDead = false;
 		}
-		return wholeTeamDead;
+		return allFightersDead;
 	}
 
 	public int Team1CurrentlyDead()
@@ -121,6 +171,17 @@ public class MatchState {
 		foreach (Hero hero in team1Heroes)
 		{
 			if (hero.dead)
+				dead++;
+		}
+		return dead;
+	}
+
+	public int TeamCurrentlyDeadInFight(int teamNo)
+	{
+		int dead = 0;
+		foreach (Hero hero in fightDeadHeroes)
+		{
+			if (hero.myTeamNo == teamNo)
 				dead++;
 		}
 		return dead;
@@ -141,4 +202,5 @@ public class MatchState {
 	{	
 		return Team1Dead() || Team2Dead();
 	}
+	
 }

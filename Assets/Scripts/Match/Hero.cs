@@ -32,17 +32,12 @@ public class Hero
     public float farm;
     public float push;
 
-	public MatchState state;
+	public static MatchState state;
 
 	//once per match, set the sides for easier access
-	public void startFight(MatchState state) {
-		this.state = state;
+	public void startFight() {
 		dead = false;		//if you've been selected for a fight, you most likely shouldn't be dead
 		currenthp = maxhp;	//TODO: this isn't true, but for now lets keep it this way
-		if (state.team1Heroes.Contains(this))
-			myTeamNo = 1;
-		else 
-			myTeamNo = 2;
 	}
 
 	public void fightAction() {
@@ -62,8 +57,6 @@ public class Hero
 
 	public void autoAttack(Hero target)
 	{
-		if (target.myTeamNo == myTeamNo)
-			Debug.Log ("eijumalauta*****************");
 		target.currenthp -= damage;
 		if (target.currenthp <= 0)
 		{
