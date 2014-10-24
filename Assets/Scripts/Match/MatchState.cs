@@ -12,6 +12,9 @@ public class MatchState {
     public int matchMinutes;
     public int dialogsPlayed;
     public int fightsPlayed;
+    public int timeToRushan;
+    public int team1Wards;
+    public int team2Wards;
 
 	public MatchState()
 	{
@@ -21,6 +24,9 @@ public class MatchState {
         isWon = false;
         dialogsPlayed = 0;
         fightsPlayed = 0;
+        timeToRushan = 0;
+        team1Wards = 0;
+        team2Wards = 0;
 	}
 
 	public void newFight()
