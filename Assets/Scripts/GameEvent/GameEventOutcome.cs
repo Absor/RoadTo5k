@@ -18,16 +18,28 @@ public class GameEventOutcome
     {
         resolvedChange = new StatusChange();
         resolvedChange.statusType = statusType;
-        resolvedChange.permanent = permanent;
-        resolvedChange.replace = replace;
-        // TODO chance, also in tooltip
-        resolvedChange.value = UnityEngine.Random.Range(min, max + 1);
+        if (getChance() >= UnityEngine.Random.Range(0f, 1f))
+        {
+            // We hit the chance!
+            resolvedChange.permanent = permanent;
+            resolvedChange.replace = replace;
+            // TODO chance, also in tooltip
+            resolvedChange.value = UnityEngine.Random.Range(min, max + 1);
+        }
+        else
+        {
+            resolvedChange.permanent = true;
+            resolvedChange.replace = false;
+            // TODO chance, also in tooltip
+            resolvedChange.value = 0;
+        }
+        
     }
 
     public string GetTooltipText()
     {
         double chance = getChance();
-        if (chance <= 0)
+        if (chance <= 0 || resolvedChange.value == 0)
         {
             return "";
         }

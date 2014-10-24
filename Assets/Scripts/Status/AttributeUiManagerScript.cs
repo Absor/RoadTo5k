@@ -10,6 +10,7 @@ public class AttributeUiManagerScript : Singleton<AttributeUiManagerScript> {
     public GameObject skillUI;
     public GameObject slidersContainer;
     public GameObject sliderContainerPrefab;
+    public Text gainText;
     // Texts
     private Text pointsAvailableText;
     private Dictionary<StatusType, Slider> sliders;
@@ -28,6 +29,7 @@ public class AttributeUiManagerScript : Singleton<AttributeUiManagerScript> {
         sliders.Add(StatusType.Rage, rageSlider);
         TooltipOnPointerOverScript rageTooltipScript = rageSlider.GetComponentInChildren<TooltipOnPointerOverScript>();
         tooltipScripts.Add(StatusType.Rage, rageTooltipScript);
+        gainText.color = new Color(0, 0, 0, 0);
 
         List<StatusType> attributes = new List<StatusType>();
         attributes.Add(StatusType.Charisma);
@@ -106,5 +108,41 @@ public class AttributeUiManagerScript : Singleton<AttributeUiManagerScript> {
         {
             tooltipScripts[key].tooltipText = key.ToNiceString();
         }
+    }
+
+    private bool transitioning = false;
+    private Stack<string> texts = new Stack<string>();
+
+    public void PointsGained(string text)
+    {
+        texts.Push(text);
+        if (!transitioning)
+        {
+            transitioning = true;
+            StartCoroutine(gainAnimation());
+        }        
+    }
+
+    private IEnumerator gainAnimation()
+    {
+        while (texts.Count > 0)
+        {
+            string text = texts.Pop();
+            gainText.text = text;
+
+            float t = 0.0f;
+            Vector3 startingPos = gainText.rectTransform.position;
+            Vector3 endPos = startingPos + Vector3.up * 50;
+            while (t < 1.0f)
+            {
+                t += Time.deltaTime * (Time.timeScale / 2f);
+
+                gainText.color = Color.Lerp(Color.white, new Color(0, 0, 0, 0), t);
+                gainText.rectTransform.position = Vector3.Lerp(startingPos, endPos, t);
+                yield return 0;
+            }
+            gainText.rectTransform.position = startingPos;
+            transitioning = false;
+        }        
     }
 }

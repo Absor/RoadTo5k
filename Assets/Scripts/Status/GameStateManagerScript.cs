@@ -75,6 +75,14 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         int nextDay = currentGameState.statuses[StatusType.Time].points / (60 * 24) + 1;
         int startMinutes = UnityEngine.Random.Range(currentGameState.statuses[StatusType.Day_Start_Time_Min].points, currentGameState.statuses[StatusType.Day_Start_Time_Max].points);
         currentGameState.statuses[StatusType.Time].points = nextDay * 24 * 60 + startMinutes;
+
+        while (currentGameState.temporaryChanges.Count > 0)
+        {
+            StatusChange change = currentGameState.temporaryChanges[0];
+            applyStatusChange(change);
+            currentGameState.temporaryChanges.RemoveAt(0);
+        }
+
         informAboutUpdate();
     }
 
@@ -118,6 +126,11 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         {
             status.points += change.value;
         }
+
+        if (change.value != 0)
+        {
+            AttributeUiManagerScript.Instance.PointsGained((change.value > 0 ? "+" + change.value : "" + change.value) + " " + change.statusType.ToNiceString());
+        }        
     }
 
     public Player GetRealPlayer()
@@ -131,5 +144,11 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         float knowledgeSupport = currentGameState.statuses[StatusType.Charisma].GetNormalizedPoints();
 
         return new Player(rage, charisma, luck, talent, knowledgeCarry, knowledgeGanker, knowledgeSupport);
+    }
+
+    public void AdvanceTime(int minutes)
+    {
+        currentGameState.statuses[StatusType.Time].points += minutes;
+        informAboutUpdate();
     }
 }
