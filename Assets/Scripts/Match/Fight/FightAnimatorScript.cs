@@ -126,7 +126,7 @@ public class FightAnimatorScript : Singleton<FightAnimatorScript> {
     // returns fight event animation duration
     private float playEventAnimation(FightEvent fightEvent)
     {
-        Debug.Log(fightEvent.eventType.ToString());
+        //Debug.Log(fightEvent.eventType.ToString());
         switch (fightEvent.eventType)
         {
             case FightEventType.JOIN_FIGHT:

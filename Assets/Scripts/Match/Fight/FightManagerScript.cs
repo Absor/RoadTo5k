@@ -27,12 +27,7 @@ public class FightManagerScript : Singleton<FightManagerScript> {
         int turn = 1;
         bool playing = true;
 
-        matchState.newFight();
-
-        foreach (Hero hero in matchHeroes)
-        {
-            hero.startFight(matchState);
-        }
+        //matchState.newFight();
 
         while (playing)
         {
@@ -42,8 +37,8 @@ public class FightManagerScript : Singleton<FightManagerScript> {
             {
                 if (!hero.dead && !matchState.AnyTeamDead())
                 {
-                    Debug.Log(matchState.AnyTeamDead());
-					Debug.Log("Total farm in team 1 : " + matchState.getMyTeamFarmSliderTotal(1));
+                    //Debug.Log(matchState.AnyTeamDead());
+					//Debug.Log("Total farm in team 1 : " + matchState.getMyTeamFarmSliderTotal(1));
                     hero.fightAction();
                 }
             }
@@ -71,45 +66,10 @@ public class FightManagerScript : Singleton<FightManagerScript> {
             Debug.Log("Turn " + (turn - 1) + "end | " + matchState.ToString());
         }
 
-        Debug.Log("FIGHT ENDED, team1 deaths: " + matchState.Team1CurrentlyDead() + " team2 deaths: " + matchState.Team2CurrentlyDead());
-        // TODO null to fight event list
-
-        // TODO REMOVE BELOW
-        FightEvent join = new FightEvent();
-        join.eventType = FightEventType.JOIN_FIGHT;
-        FightEventTarget target = new FightEventTarget();
-        target.targetType = FightEventTargetType.HERO;
-        target.id = 0;
-        join.targets.Add(target);
-        target = new FightEventTarget();
-        target.targetType = FightEventTargetType.HERO;
-        target.id = 3;
-        join.targets.Add(target);
-        target = new FightEventTarget();
-        target.targetType = FightEventTargetType.HERO;
-        target.id = 6;
-        join.targets.Add(target);
-        fightEvents.Add(join);
-
-        FightEvent joinCombat = new FightEvent();
-        joinCombat.eventType = FightEventType.DEATH;
-        target = new FightEventTarget();
-        target.targetType = FightEventTargetType.HERO;
-        target.id = 3;
-        joinCombat.targets.Add(target);
-
-        target = new FightEventTarget();
-        target.targetType = FightEventTargetType.HERO;
-        target.id = 6;
-        joinCombat.targets.Add(target);
-
-        fightEvents.Add(joinCombat);
-
-        FightEvent leave = new FightEvent();
-        leave.eventType = FightEventType.LEAVE_FIGHT;
-        fightEvents.Add(leave);
-        // TODO REMOVE ABOVE
-        FightAnimatorScript.Instance.PlayFight(fightEvents);
+		Debug.Log("FIGHT ENDED, team1 deaths: " + matchState.TeamCurrentlyDeadInFight(1) + " team2 deaths: " + matchState.TeamCurrentlyDeadInFight(2));
+    
+		animateFight(matchState);
+        
     }
 
     public void AnimationDone()
@@ -146,6 +106,39 @@ public class FightManagerScript : Singleton<FightManagerScript> {
         }
         return healing;
     }*/
+
+	private void animateFight(MatchState matchState) {
+		FightEvent join = new FightEvent();
+		join.eventType = FightEventType.JOIN_FIGHT;
+		FightEventTarget target;
+
+		FightEvent leave = new FightEvent();
+		leave.eventType = FightEventType.LEAVE_FIGHT;
+		
+		foreach (Hero hero in matchState.fightAllHeroes) {
+			target = new FightEventTarget();
+			target.targetType = FightEventTargetType.HERO;
+			target.id = hero.id;
+			join.targets.Add(target);
+			leave.targets.Add(target);
+		}
+		
+		FightEvent die = new FightEvent();
+		die.eventType = FightEventType.DEATH;
+		
+		foreach (Hero hero in matchState.fightDeadHeroes) {
+			target = new FightEventTarget();
+			target.targetType = FightEventTargetType.HERO;
+			target.id = hero.id;
+			die.targets.Add(target);
+		}
+
+		fightEvents.Add(join);
+		fightEvents.Add(die);
+		fightEvents.Add(leave);
+		
+		FightAnimatorScript.Instance.PlayFight(fightEvents);
+	}
 
     public void Reset()
     {

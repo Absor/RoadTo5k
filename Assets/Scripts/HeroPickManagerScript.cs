@@ -82,6 +82,7 @@ public class HeroPickManagerScript : Singleton<HeroPickManagerScript> {
         for (int i = 0; i < 10; i++)
         {
             Hero hero = RandomGeneratorScript.Instance.GetRandomHero();
+			hero.id = i;
             if (i < 5)
             {
                 MatchScript.Instance.matchState.team1Heroes.Add(hero);
