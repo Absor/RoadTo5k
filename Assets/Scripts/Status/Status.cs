@@ -20,7 +20,14 @@ public static class StatusTypeExtensions
 {
     public static string ToNiceString(this StatusType type)
     {
-        return type.ToString().Replace("_", ": ");
+		if (type == StatusType.Day_Start_Time_Min){
+			return "earliest start time\n";
+		}
+		if (type == StatusType.Day_Start_Time_Max){
+			return "latest start time\n";
+		}
+        string niceString = type.ToString().Replace("_", ": ");
+		return niceString + "\n";
     }
 }
 

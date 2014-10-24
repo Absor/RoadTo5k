@@ -18,6 +18,7 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
         watchEvents = JsonMapper.ToObject<List<GameEvent>>(watchEventsTextAsset.text);
 
         // TODO REMOVE BELOW
+		/*
         Dictionary<string, List<GameEvent>> events = new Dictionary<string, List<GameEvent>>();
         GameEvent day1 = new GameEvent();
 
@@ -68,6 +69,7 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
         string json = JsonMapper.ToJson(dailyEvents);
 
         Debug.Log(json);
+        */
     }
 
     public GameEvent GetDailyEvent(int day)
@@ -80,12 +82,17 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
         } else {
             dailies = dailyEvents["random"];
         }
+
+
         return dailies[Random.Range(0, dailies.Count)];
     }
 
     public GameEvent GetWatchEvent()
     {
-        return watchEvents[Random.Range(0, watchEvents.Count)];
+		Debug.Log("Amount of watchEvents"+watchEvents.Count);
+
+		return watchEvents[Random.Range(0, watchEvents.Count)];
+
     }
 
     public Player GetRandomPlayer()

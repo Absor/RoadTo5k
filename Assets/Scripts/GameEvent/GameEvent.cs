@@ -30,8 +30,7 @@ public class GameEvent
             {
                 option.tooltipText += outcome.GetTooltipText();
             }
-            option.tooltipText.TrimEnd(new char[]{'\n'});
-
+			option.tooltipText = option.tooltipText.TrimEnd(new char[]{'\n'});
             if (option.tooltipText.Trim().Length == 0)
             {
                 option.tooltipText = null;

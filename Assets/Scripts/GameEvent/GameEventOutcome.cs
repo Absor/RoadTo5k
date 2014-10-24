@@ -33,6 +33,9 @@ public class GameEventOutcome
         }
         else if (chance >= 1)
         {
+			if (statusType.Equals(StatusType.Day_Start_Time_Min) || statusType.Equals(StatusType.Day_Start_Time_Max)){
+				return formatIntToTime(resolvedChange.value) + " " + statusType.ToNiceString();
+			}
             return formatInt(resolvedChange.value) + " " + statusType.ToNiceString();
         }
         return Math.Round(chance * 100, 1) + "% chance for " + formatInt(min) + " to " + formatInt(max) + " of " + statusType.ToNiceString();
@@ -52,4 +55,14 @@ public class GameEventOutcome
     {
         return (value > 0 ? "+" + value : "" + value);
     }
+	private string formatIntToTime(int value)
+	{
+		TimeSpan t = TimeSpan.FromMinutes(value);
+
+		string time = string.Format("{0:D2}:{1:D2}", 
+		                              t.Hours, 
+		                              t.Minutes);
+		                            
+		return time;
+	}
 }
