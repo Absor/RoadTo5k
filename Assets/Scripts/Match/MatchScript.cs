@@ -124,9 +124,9 @@ public class MatchScript : Singleton<MatchScript> {
         int addMinutes = Random.Range(5, 10);
         matchState.matchMinutes += addMinutes;
         GameStateManagerScript.Instance.AdvanceTime(addMinutes);
-        matchState.team1Wards -= 1;
-        matchState.team2Wards -= 1;
-        matchState.timeToRushan -= 1;
+        matchState.team1Wards -= addMinutes;
+        matchState.team2Wards -= addMinutes;
+        matchState.timeToRushan -= addMinutes;
         checkForVictory();
     }
 
