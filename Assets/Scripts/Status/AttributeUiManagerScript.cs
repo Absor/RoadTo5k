@@ -106,7 +106,7 @@ public class AttributeUiManagerScript : Singleton<AttributeUiManagerScript> {
     {
         foreach (StatusType key in tooltipScripts.Keys)
         {
-            tooltipScripts[key].tooltipText = key.ToNiceString();
+            tooltipScripts[key].tooltipText = key.ToNiceString().TrimEnd();
         }
     }
 

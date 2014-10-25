@@ -39,18 +39,19 @@ public class GameEventOutcome
     public string GetTooltipText()
     {
         double chance = getChance();
-        if (chance <= 0 || resolvedChange.value == 0)
+        string extra = permanent ? "" : " for today";
+        if (chance <= 0)
         {
             return "";
         }
-        else if (chance >= 1)
+        else if (chance >= 1 && resolvedChange.value != 0)
         {
 			if (statusType.Equals(StatusType.Day_Start_Time_Min) || statusType.Equals(StatusType.Day_Start_Time_Max)){
-				return formatIntToTime(resolvedChange.value) + " " + statusType.ToNiceString();
+                return formatIntToTime(resolvedChange.value) + " " + statusType.ToNiceString() + extra;
 			}
-            return formatInt(resolvedChange.value) + " " + statusType.ToNiceString();
+            return formatInt(resolvedChange.value) + " " + statusType.ToNiceString() + extra;
         }
-        return Math.Round(chance * 100, 1) + "% chance for " + formatInt(min) + " to " + formatInt(max) + " of " + statusType.ToNiceString();
+        return Math.Round(chance * 100, 1) + "% chance for " + formatInt(min) + " to " + formatInt(max) + " of " + statusType.ToNiceString() + extra;
     }
 
     public StatusChange GetStatusChange()

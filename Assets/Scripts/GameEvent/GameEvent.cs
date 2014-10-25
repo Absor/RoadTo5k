@@ -28,9 +28,9 @@ public class GameEvent
             option.tooltipText = "";
             foreach (GameEventOutcome outcome in outcomes[option.optionId])
             {
-                option.tooltipText += outcome.GetTooltipText();
+                option.tooltipText += outcome.GetTooltipText() + "\n";
             }
-			option.tooltipText = option.tooltipText.TrimEnd(new char[]{'\n'});
+			option.tooltipText = option.tooltipText.TrimEnd();
             if (option.tooltipText.Trim().Length == 0)
             {
                 option.tooltipText = null;

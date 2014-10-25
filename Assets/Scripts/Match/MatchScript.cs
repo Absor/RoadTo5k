@@ -118,24 +118,19 @@ public class MatchScript : Singleton<MatchScript> {
         MatchEventManagerScript.Instance.DecideEvent(matchState);
     }
 
-    public void DialogResolved()
+    public void StepResolved()
     {
-        matchState.dialogsPlayed++;
         gameScreenNextStepButton.gameObject.SetActive(true);
-        checkForVictory();
-    }
-
-    public void FightResolved()
-    {
-        matchState.fightsPlayed++;
-        gameScreenNextStepButton.gameObject.SetActive(true);
+        int addMinutes = Random.Range(5, 10);
+        matchState.matchMinutes += addMinutes;
+        GameStateManagerScript.Instance.AdvanceTime(addMinutes);
         checkForVictory();
     }
 
     private void checkForVictory()
     {
         // Win condition whatevers, could be inside fightmanager or dialogmanager
-        if (matchState.dialogsPlayed >= 3 && matchState.fightsPlayed >= 3)
+        if (matchState.matchMinutes > 45)
         {
             matchState.isWon = true;
         }

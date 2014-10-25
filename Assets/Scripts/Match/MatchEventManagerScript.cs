@@ -57,7 +57,7 @@ public class MatchEventManagerScript : Singleton<MatchEventManagerScript> {
                 resolveWardsDialog(option);
                 break;
         }
-        MatchScript.Instance.DialogResolved();
+        MatchScript.Instance.StepResolved();
     }
 
     private void resolveWardsDialog(DialogOption option)
@@ -78,7 +78,7 @@ public class MatchEventManagerScript : Singleton<MatchEventManagerScript> {
     private Dialog getWardsDialog()
     {
         Dialog dialog = new Dialog();
-        dialog.dialogText = "You notice your teams doesn't have wards";
+        dialog.dialogText = "You notice your team doesn't have wards";
         DialogOption option = new DialogOption();
         option.optionId = "team";
         option.optionText = "Tell your team to buy wards";

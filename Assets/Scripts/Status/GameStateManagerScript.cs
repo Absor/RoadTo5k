@@ -127,10 +127,7 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
             status.points += change.value;
         }
 
-        if (change.value != 0)
-        {
-            AttributeUiManagerScript.Instance.PointsGained((change.value > 0 ? "+" + change.value : "" + change.value) + " " + change.statusType.ToNiceString());
-        }        
+        AttributeUiManagerScript.Instance.PointsGained((change.value > 0 ? "+" + change.value : "" + change.value) + " " + change.statusType.ToNiceString());
     }
 
     public Player GetRealPlayer()

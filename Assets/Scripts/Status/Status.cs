@@ -21,13 +21,12 @@ public static class StatusTypeExtensions
     public static string ToNiceString(this StatusType type)
     {
 		if (type == StatusType.Day_Start_Time_Min){
-			return "earliest start time\n";
+			return "earliest start time";
 		}
 		if (type == StatusType.Day_Start_Time_Max){
-			return "latest start time\n";
+			return "latest start time";
 		}
-        string niceString = type.ToString().Replace("_", ": ");
-		return niceString + "\n";
+		return type.ToString().Replace("_", ": ");
     }
 }
 

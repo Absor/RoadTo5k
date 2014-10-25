@@ -74,7 +74,7 @@ public class FightManagerScript : Singleton<FightManagerScript> {
 
     public void AnimationDone()
     {
-        MatchScript.Instance.FightResolved();
+        MatchScript.Instance.StepResolved();
     }
 	/*
     private int countTotalHeroHealth(List<Hero> heroes)

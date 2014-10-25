@@ -12,8 +12,6 @@ public class MatchState {
 	public List<Hero> fightAllHeroes;
     public bool isWon;
     public int matchMinutes;
-    public int dialogsPlayed;
-    public int fightsPlayed;
     public int timeToRushan;
     public int team1Wards;
     public int team2Wards;
@@ -24,8 +22,6 @@ public class MatchState {
 		team2Heroes = new List<Hero>();
 		matchHeroes = new List<Hero>();
         isWon = false;
-        dialogsPlayed = 0;
-        fightsPlayed = 0;
         timeToRushan = 0;
         team1Wards = 0;
         team2Wards = 0;
