@@ -187,5 +187,6 @@ public class MatchScript : Singleton<MatchScript> {
         ActivateScreen(gameEndScreen);
         currentPhase = MatchPhase.END;
         MusicManagerScript.Instance.ChangeMusicType(MusicType.Theme);
+        MatchEndScript.Instance.ResolveEnd(matchState);
     }
 }
