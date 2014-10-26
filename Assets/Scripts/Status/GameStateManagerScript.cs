@@ -163,6 +163,7 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
 
     public Player GetRealPlayer()
     {
+        string name = "You";
         float rage = currentGameState.statuses[StatusType.Rage].GetNormalizedPoints();
         float charisma = currentGameState.statuses[StatusType.Charisma].GetNormalizedPoints();
         float luck = currentGameState.statuses[StatusType.Luck].GetNormalizedPoints();
@@ -171,7 +172,7 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         float knowledgeGanker = currentGameState.statuses[StatusType.Charisma].GetNormalizedPoints();
         float knowledgeSupport = currentGameState.statuses[StatusType.Charisma].GetNormalizedPoints();
 
-        return new Player(rage, charisma, luck, talent, knowledgeCarry, knowledgeGanker, knowledgeSupport);
+        return new Player(name, rage, charisma, luck, talent, knowledgeCarry, knowledgeGanker, knowledgeSupport);
     }
 
     public void AdvanceTime(int minutes)

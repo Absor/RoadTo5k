@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+public enum MatchPhase
+{
+    HERO_PICK,
+    GAME,
+    END
+}
+
 public class MatchScript : Singleton<MatchScript> {
 
     public GameObject heroPickScreen;
@@ -11,6 +18,8 @@ public class MatchScript : Singleton<MatchScript> {
 
     public Button gameScreenNextStepButton;
 	public MatchState matchState;
+
+    private MatchPhase currentPhase;
 
     private SliderInputScript sliderInputScript;
 
@@ -43,6 +52,12 @@ public class MatchScript : Singleton<MatchScript> {
         ActivateScreen(heroPickScreen);
         HeroPickManagerScript.Instance.StartNewHeroPick();
         MusicManagerScript.Instance.ChangeMusicType(MusicType.Battle);
+        currentPhase = MatchPhase.HERO_PICK;
+
+        ChatMessage startMessage = new ChatMessage();
+        startMessage.messageType = ChatMessageType.SYSTEM;
+        startMessage.message = "Joined game. Pick your hero!";
+        ChatManagerScript.Instance.AddMessage(startMessage);
 	}
 
 	public void HeroPickReady()
@@ -63,6 +78,8 @@ public class MatchScript : Singleton<MatchScript> {
             }
         }
         FightAnimatorScript.Instance.SetTexts(names);
+
+        currentPhase = MatchPhase.GAME;
     }
 
     private void PlayNextStep()
@@ -118,7 +135,15 @@ public class MatchScript : Singleton<MatchScript> {
 
     public void InteractWithChat()
     {
-        Debug.Log("INTERACTION"); // TODO
+        switch (currentPhase)
+        {
+            case MatchPhase.HERO_PICK:
+                HeroPickManagerScript.Instance.ChatInterAction();
+                break;
+            case MatchPhase.GAME:
+                // TODO HERE
+                break;
+        }
     }
 
     private void playFightStep()
@@ -160,6 +185,7 @@ public class MatchScript : Singleton<MatchScript> {
     private void matchWon()
     {
         ActivateScreen(gameEndScreen);
+        currentPhase = MatchPhase.END;
         MusicManagerScript.Instance.ChangeMusicType(MusicType.Theme);
     }
 }

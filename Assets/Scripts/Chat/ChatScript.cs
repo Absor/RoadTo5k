@@ -19,12 +19,13 @@ public class ChatScript : MonoBehaviour, IChatScript {
             button.onClick.AddListener(chatButtonClicked);
         }
     }
-	
-	public void UpdateMessages (List<string> messages) {
+
+    public void UpdateMessages(List<ChatMessage> messages)
+    {
 	    string chatText = "";
-        foreach (string message in messages)
+        foreach (ChatMessage message in messages)
         {
-            chatText += "\n" + message;
+            chatText += "\n" + message.ToString();
         }
 
         textField.text = chatText;

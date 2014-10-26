@@ -7,14 +7,14 @@ public class ChatManagerScript : Singleton<ChatManagerScript> {
     // Chat Scripts to give updates to
     private List<IChatScript> chatScripts;
 
-    private List<string> messages;
+    private List<ChatMessage> messages;
 
     void Awake()
     {
         chatScripts = this.FindObjectsOfInterface<IChatScript>();
     }
 
-    public void AddMessage(string message)
+    public void AddMessage(ChatMessage message)
     {
         messages.Add(message);
 		updateMessages ();
@@ -30,7 +30,7 @@ public class ChatManagerScript : Singleton<ChatManagerScript> {
 
 	public void EmptyChat()
 	{
-		messages = new List<string>();
+        messages = new List<ChatMessage>();
 		updateMessages();
 	}
 }
