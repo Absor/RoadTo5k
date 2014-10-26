@@ -89,10 +89,7 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
 
     public GameEvent GetWatchEvent()
     {
-		Debug.Log("Amount of watchEvents"+watchEvents.Count);
-
 		return watchEvents[Random.Range(0, watchEvents.Count)];
-
     }
 
     public Player GetRandomPlayer()

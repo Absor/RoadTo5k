@@ -26,11 +26,11 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         StatusType[] types = Enum.GetValues(typeof(StatusType)) as StatusType[];
         foreach (StatusType type in types)
         {
-            Status status = new Status(type, 20, 100);
+            Status status = new Status(type, 0, 100);
             currentGameState.statuses.Add(type, status);
         }
         currentGameState.statuses[StatusType.Skillpoints_Assign_Amount].points = 4;
-        currentGameState.statuses[StatusType.Skillpoints_Available].points = 80;
+        currentGameState.statuses[StatusType.Skillpoints_Available].points = 0;
         currentGameState.statuses[StatusType.Time].points = 24 * 60 + 17 * 60 + 30;
         currentGameState.statuses[StatusType.Day_Start_Time_Min].points = 17 * 60;
         currentGameState.statuses[StatusType.Day_Start_Time_Max].points = 18 * 60;
@@ -83,6 +83,8 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
             currentGameState.temporaryChanges.RemoveAt(0);
         }
 
+        StatusChangeLoggerScript.Instance.AddDay();
+        StatusChangeLoggerScript.Instance.PrintLog();
         informAboutUpdate();
     }
 
@@ -124,10 +126,37 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         }
         else
         {
-            status.points += change.value;
+            if (change.statusType == StatusType.Rage)
+            {
+                GainRage(change.value);
+            }
+            else if (change.statusType.IsAPlayerAttribute())
+            {
+                status.points += change.value * currentGameState.statuses[StatusType.Skillpoints_Assign_Amount].points;
+                StatusChangeLoggerScript.Instance.LogStatusChange(change.statusType, change.value);
+            }
+            else
+            {
+                status.points += change.value;
+                StatusChangeLoggerScript.Instance.LogStatusChange(change.statusType, change.value);
+            }
         }
-
         AttributeUiManagerScript.Instance.PointsGained((change.value > 0 ? "+" + change.value : "" + change.value) + " " + change.statusType.ToNiceString());
+    }
+
+    public void GainRage(int points)
+    {
+        Status status = GetStatus(StatusType.Rage);
+        int gain = Mathf.RoundToInt(points * currentGameState.statuses[StatusType.Rage_Gain_Modifier].GetNormalizedPoints());
+        status.points += gain;
+        StatusChangeLoggerScript.Instance.LogStatusChange(StatusType.Rage, gain);
+    }
+
+    public void GainRating(int points)
+    {
+        Status status = GetStatus(StatusType.Rating);
+        status.points += points;
+        StatusChangeLoggerScript.Instance.LogStatusChange(StatusType.Rating, points);
     }
 
     public Player GetRealPlayer()

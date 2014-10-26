@@ -14,7 +14,6 @@ public class MusicManagerScript : Singleton<MusicManagerScript> {
     public AudioSource themeMusic;
     public AudioSource battleMusic;
 
-    private MusicType currentType = MusicType.Theme;
     private AudioSource currentSource;
 
     void Start()
@@ -27,7 +26,6 @@ public class MusicManagerScript : Singleton<MusicManagerScript> {
     {
         AudioSource newSource = getAudioSource(newType);
         StartCoroutine(crossfade(currentSource, newSource));
-        currentType = newType;
         currentSource = newSource;
     }
 

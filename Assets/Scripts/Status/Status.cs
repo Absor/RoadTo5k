@@ -28,6 +28,12 @@ public static class StatusTypeExtensions
 		}
 		return type.ToString().Replace("_", ": ");
     }
+
+    public static bool IsAPlayerAttribute(this StatusType type)
+    {
+        return type == StatusType.Charisma || type == StatusType.Knowledge_Carry || type == StatusType.Knowledge_Ganker ||
+            type == StatusType.Knowledge_Support || type == StatusType.Luck || type == StatusType.Talent;
+    }
 }
 
 public class Status
