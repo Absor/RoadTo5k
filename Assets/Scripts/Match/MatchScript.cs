@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -130,6 +130,22 @@ public class MatchScript : Singleton<MatchScript> {
         {
             playFightStep();
         }
+
+		//push
+		foreach (Hero hero in matchState.team1Heroes) {
+			matchState.dealDmgToEnemyTower(1, hero);
+		}
+		foreach (Hero hero in matchState.team2Heroes) {
+			matchState.dealDmgToEnemyTower(2, hero);
+		}
+
+		Debug.Log (matchState.printTowerSituation ());
+		//distribute farm...
+		int baseGold = 2500; //per side
+		int advantage = matchState.teamAdvantage ();
+		matchState.distributeFarmForTeam (baseGold + advantage * 200, 1);
+		matchState.distributeFarmForTeam (baseGold - advantage * 200, 2);
+
         // or who knows what based on matchState
     }
 
@@ -167,11 +183,12 @@ public class MatchScript : Singleton<MatchScript> {
         matchState.timeToRushan -= addMinutes;
         checkForVictory();
     }
+	                  
 
     private void checkForVictory()
     {
         // Win condition whatevers, could be inside fightmanager or dialogmanager
-        if (matchState.matchMinutes > 45)
+        if (matchState.team1Towers == 0 || matchState.team2Towers == 0)
         {
             matchState.isWon = true;
         }

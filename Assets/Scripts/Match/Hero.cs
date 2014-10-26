@@ -28,10 +28,13 @@ public class Hero
 	public int currenthp;
 	public int regen;				//might or might not want this, regen within a combat is ignored; 
 									//use this to gain hp outside of combat (so being low hp in next fight to begin with is possible
-	public int damage;
+	public int damage;				//base damage
 	public int healing;				//TODO: extract to a skill
+	public int gold = 0;
 
 	public bool dead = false;
+	public int deaths = 0;
+	public int kills = 0;
 
 	public int myTeamNo;
     public Player player;
@@ -66,9 +69,10 @@ public class Hero
 
 	public void autoAttack(Hero target)
 	{
-		target.currenthp -= damage;
+		target.currenthp -= damageAmount();
 		if (target.currenthp <= 0)
 		{
+			kills++;
 			state.heroDied(target); //update game state with the info
 		}
 	}
@@ -124,6 +128,12 @@ public class Hero
 		return rating / 50 - 44;
 	}
 
+	public double kd() {
+		if (deaths == 0)
+			return kills;
+		return kills / deaths;
+	}
+
 	private void setGankFarmPush(string action, float value) {
 		if (action.Equals ("farm")) {
 			this.farm = value;
@@ -132,6 +142,24 @@ public class Hero
 		} else if (action.Equals ("push")) {
 			this.push = value;
 		}
+	}
+
+	private int damageAmount() { //TODO: add player hero-knowledge skill effects
+		if (heroType == HeroType.Carry)
+			return (damage * (1 + gold / 1000));
+		else if (heroType == HeroType.Ganker)
+			return (damage * (1 + gold / 2000));
+		else
+			return (damage * (1 + gold / 3000));
+	}
+
+	public int damageToTower() { //TODO: add player hero-knowledge skill effects
+		if (heroType == HeroType.Carry)
+			return (damage * 5 * (1 + gold / 1000));
+		else if (heroType == HeroType.Ganker)
+			return (damage * 5 * (1 + gold / 2000));
+		else
+			return (damage * 10 * ((1 + gold / 2000)));
 	}
 
 	public string ToString() {
