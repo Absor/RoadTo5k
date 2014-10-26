@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class MatchState {
 	public List<Hero> team1Heroes;
@@ -10,17 +11,25 @@ public class MatchState {
 	public List<Hero> matchHeroes;
 	public List<Hero> fightDeadHeroes;
 	public List<Hero> fightAllHeroes;
-    public bool isWon;
+	public List<Hero> team1HeroesOrderedByFarm;
+	public List<Hero> team2HeroesOrderedByFarm;
+	public bool isWon;
     public int matchMinutes;
     public int timeToRushan;
     public int team1Wards;
     public int team2Wards;
+	public int team1Towers = 9;
+	public int team2Towers = 9;
 
 	public MatchState()
 	{
 		team1Heroes = new List<Hero>();
 		team2Heroes = new List<Hero>();
 		matchHeroes = new List<Hero>();
+		team1HeroesOrderedByFarm = new List<Hero> ();
+		team2HeroesOrderedByFarm = new List<Hero> ();
+		team1HeroesOrderedByFarm.AddRange (team1Heroes);
+		team2HeroesOrderedByFarm.AddRange (team2Heroes);
         isWon = false;
         timeToRushan = 0;
         team1Wards = 0;
@@ -128,6 +137,7 @@ public class MatchState {
 	{
 		fightDeadHeroes.Add(hero);
 		hero.dead = true;
+		hero.deaths++;
 		if (team1Heroes.Contains(hero))
 			team1FightHeroes.Remove(hero);
 		else
@@ -204,5 +214,49 @@ public class MatchState {
 	{	
 		return Team1Dead() || Team2Dead();
 	}
+
+	public int teamAdvantage() { //>0 advantage for team1, <0 advantage for team2
+		return (5 - Team1CurrentlyDead ()) - (5 - Team2CurrentlyDead ());
+	}
+
+	public void distributeFarmForTeam(int pool, int teamNo) {
+		int goldAttempted;
+		double successRating;
+		if (teamNo == 1) {
+			foreach (Hero hero in team1HeroesOrderedByFarm.OrderBy(o => o.farm)) {
+				goldAttempted = pool/2; //first one gets to try for half the available gold, next half of that and so on
+				//success getting the farm you're aiming for, half effort, half talent + minor luck bonus
+				successRating = (hero.farm / 2) + ((hero.player.talent/2 + hero.player.luck/8 ) / 100) ;
+				hero.gold += (int)(goldAttempted * successRating);
+				pool -= goldAttempted;
+			}
+		} else {
+			foreach (Hero hero in team2HeroesOrderedByFarm.OrderBy(o => o.farm)) {
+				goldAttempted = pool/2; //first one gets to try for half the available gold, next half of that and so on
+				//success getting the farm you're aiming for, half effort, half talent + minor luck bonus
+				successRating = (hero.farm / 2) + ((hero.player.talent/2 + hero.player.luck/8 ) / 100) ;
+				hero.gold += (int)(goldAttempted * successRating);
+				pool -= goldAttempted;
+			}
+		}
+	}
+
+	public void destroyTeamTower(int teamNo) {
+		if (teamNo == 1)
+			team1Towers--;
+		else
+			team2Towers--;
+	}
+
+	//return winning team number if all of their towers are gone, otherwise returns 0
+	public int gameWinnerTeam() {
+		if (team1Towers < 1)
+			return 2;
+		else if (team2Towers < 1)
+			return 1;
+		else
+			return 0;
+	}
+
 	
 }

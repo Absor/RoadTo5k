@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -100,6 +100,13 @@ public class MatchScript : Singleton<MatchScript> {
         {
             playFightStep();
         }
+
+		//distribute farm...
+		int baseGold = 2500; //per side
+		int advantage = matchState.teamAdvantage ();
+		matchState.distributeFarmForTeam (baseGold + advantage * 200, 1);
+		matchState.distributeFarmForTeam (baseGold - advantage * 200, 2);
+
         // or who knows what based on matchState
     }
 
@@ -126,11 +133,12 @@ public class MatchScript : Singleton<MatchScript> {
         GameStateManagerScript.Instance.AdvanceTime(addMinutes);
         checkForVictory();
     }
+	                  
 
     private void checkForVictory()
     {
         // Win condition whatevers, could be inside fightmanager or dialogmanager
-        if (matchState.matchMinutes > 45)
+        if (matchState.matchMinutes > 45 || matchState.team1Towers == 0 || matchState.team2Towers == 0)
         {
             matchState.isWon = true;
         }
