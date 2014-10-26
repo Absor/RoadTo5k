@@ -100,6 +100,7 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
     public Player GetRandomPlayer()
     {
         // TODO rating based?
+        string name = GetRandomNickname();
         float rage = Random.Range(0f, 1f);
         float charisma = Random.Range(0f, 1f);
         float luck = Random.Range(0f, 1f);
@@ -108,7 +109,7 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
         float knowledgeGanker = Random.Range(0f, 1f);
         float knowledgeSupport = Random.Range(0f, 1f);
 
-        return new Player(rage, charisma, luck, talent, knowledgeCarry, knowledgeGanker, knowledgeSupport);
+        return new Player(name, rage, charisma, luck, talent, knowledgeCarry, knowledgeGanker, knowledgeSupport);
     }
 
     public Hero GetRandomHero()
@@ -120,9 +121,6 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
         hero.initiative = Random.Range(1, 100);
         hero.currenthp = hero.maxhp;
         hero.heroType = HeroType.Carry;
-        hero.name = GetRandomNickname();
-
-        hero.player = GetRandomPlayer();
         return hero;
     }
 

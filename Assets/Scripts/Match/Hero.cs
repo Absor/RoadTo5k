@@ -13,7 +13,16 @@ public class Hero
 {
 	public int id;
 
-	public string name;
+	public string name {
+        get
+        {
+            return player.name;
+        }
+        set
+        {
+            player.name = value;
+        }
+    }
 	public int initiative; 			//the bigger the number, the better the chances of going first in a fight
 	public int maxhp;
 	public int currenthp;

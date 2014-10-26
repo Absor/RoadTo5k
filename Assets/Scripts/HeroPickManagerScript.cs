@@ -82,7 +82,16 @@ public class HeroPickManagerScript : Singleton<HeroPickManagerScript> {
         for (int i = 0; i < 10; i++)
         {
             Hero hero = RandomGeneratorScript.Instance.GetRandomHero();
-			hero.id = i;
+            hero.id = i;
+
+            if (i != 0)
+            {
+                hero.player = RandomGeneratorScript.Instance.GetRandomPlayer();
+            }
+            else
+            {
+                hero.player = GameStateManagerScript.Instance.GetRealPlayer();
+            }
             if (i < 5)
             {
                 MatchScript.Instance.matchState.team1Heroes.Add(hero);
@@ -113,5 +122,10 @@ public class HeroPickManagerScript : Singleton<HeroPickManagerScript> {
         {
             portraitScripts[i].UpdatePortrait(MatchScript.Instance.matchState.matchHeroes[i]);
         }
+    }
+
+    public void ChatInterAction()
+    {
+        Debug.Log("nyt vituttaa");
     }
 }
