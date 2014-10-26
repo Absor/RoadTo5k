@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class FightCharacterAnimatorScript : MonoBehaviour {
 
     public readonly int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
 
     private Animator animator;
+    private Text text;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
+        text = GetComponentInChildren<Text>();
     }
 
     public void Reset()
@@ -52,5 +55,10 @@ public class FightCharacterAnimatorScript : MonoBehaviour {
     internal void Resurrect()
     {
         animator.SetBool("dead", false);
+    }
+
+    public void SetText(string newText)
+    {
+        text.text = newText;
     }
 }
