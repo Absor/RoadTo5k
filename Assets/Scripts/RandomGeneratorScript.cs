@@ -114,9 +114,9 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
     public Hero GetRandomHero()
     {
         Hero hero = new Hero();
-        hero.damage = Random.Range(2, 4);
-        hero.healing = Random.Range(1, 3);
-        hero.maxhp = Random.Range(12, 15);
+        hero.damage = Random.Range(30, 40);
+        hero.healing = Random.Range(1, 3); //unused
+        hero.maxhp = Random.Range(400, 600);
         hero.initiative = Random.Range(1, 100);
         hero.currenthp = hero.maxhp;
         hero.heroType = HeroType.Carry;

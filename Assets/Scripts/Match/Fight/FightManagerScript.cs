@@ -43,21 +43,8 @@ public class FightManagerScript : Singleton<FightManagerScript> {
                 }
             }
             yield return 0;
-            /*
-            int team1Damage = countTotalHeroDamage(team1Heroes);
-            int team2Damage = countTotalHeroDamage(team2Heroes);
-            int team1Healing = countTotalHeroHealing(team1Heroes);
-            int team2Healing = countTotalHeroHealing(team2Heroes);
-
-            team1Hp -= team2Damage + team1Healing;
-            team2Hp -= team1Damage + team2Healing;
-
-            if (team1Hp <= 0 || team2Hp <= 0 || turn >= 20)
-            {
-                playing = false;
-            }*/
-
-            if (turn >= 20 || matchState.AnyTeamDead())
+      
+            if (turn >= 20 || matchState.AnyTeamDead()) //TODO: figure some way to alter turn limit?
             {
                 playing = false;
             }

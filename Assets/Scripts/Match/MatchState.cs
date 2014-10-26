@@ -20,6 +20,9 @@ public class MatchState {
     public int team2Wards;
 	public int team1Towers = 9;
 	public int team2Towers = 9;
+	public int towerMaxHp = 500;
+	public int team1CurrentTowerHp;
+	public int team2CurrentTowerHp;
 
 	public MatchState()
 	{
@@ -31,6 +34,8 @@ public class MatchState {
 		team1HeroesOrderedByFarm.AddRange (team1Heroes);
 		team2HeroesOrderedByFarm.AddRange (team2Heroes);
         isWon = false;
+		team1CurrentTowerHp = towerMaxHp;
+		team2CurrentTowerHp = towerMaxHp;
         timeToRushan = 0;
         team1Wards = 0;
         team2Wards = 0;
@@ -146,12 +151,16 @@ public class MatchState {
 
 	public string ToString()
 	{
-		string str = "Participants, team 1 *" + team1FightHeroes.Count + "* team 2 *" + team2FightHeroes.Count + "* ";
+		string str = "Participants, [team 1 *" + team1FightHeroes.Count + "*] [team 2 *" + team2FightHeroes.Count + "*] ";
 		foreach (Hero hero in fightAllHeroes)
 		{
 			str += " " + hero.ToString();
 		}
 		return str;
+	}
+
+	public string printTowerSituation() {
+		return "[Team 1 towers: " + team1Towers + ", current tower hp: "+ team1CurrentTowerHp +"]\n [Team 2 towers: " + team2Towers + ", current tower hp: "+ team2CurrentTowerHp +"]";
 	}
 
 	public bool Team1Dead()
@@ -258,5 +267,33 @@ public class MatchState {
 			return 0;
 	}
 
+	public void dealDmgToEnemyTower(int myTeamNo, Hero dmgDealer) {
+		int dmgDealt = 0;
+		if (myTeamNo == 1) {
+			dmgDealt = (int) (dmgDealer.damageToTower() * (0.2 + dmgDealer.push * (1 + Team2CurrentlyDead())));
+			if (dmgDealer.dead) 
+				dmgDealt = dmgDealt/2;
+			team2CurrentTowerHp -= dmgDealt;
+
+			if (team2CurrentTowerHp < 0) {
+				team2CurrentTowerHp = towerMaxHp;
+				team2Towers--;
+				foreach (Hero hero in team1Heroes)
+					hero.farm += 200;
+			}
+		} else {
+			dmgDealt = (int) (dmgDealer.damageToTower() * (0.2 + dmgDealer.push * (1 + Team1CurrentlyDead())));
+			if (dmgDealer.dead) 
+				dmgDealt = dmgDealt/2;
+			team1CurrentTowerHp -= dmgDealt;
+			
+			if (team1CurrentTowerHp < 0) {
+				team1CurrentTowerHp = towerMaxHp;
+				team1Towers--;
+				foreach (Hero hero in team2Heroes)
+					hero.farm += 200;
+			}
+		}
+	}
 	
 }

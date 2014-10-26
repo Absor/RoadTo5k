@@ -114,6 +114,15 @@ public class MatchScript : Singleton<MatchScript> {
             playFightStep();
         }
 
+		//push
+		foreach (Hero hero in matchState.team1Heroes) {
+			matchState.dealDmgToEnemyTower(1, hero);
+		}
+		foreach (Hero hero in matchState.team2Heroes) {
+			matchState.dealDmgToEnemyTower(2, hero);
+		}
+
+		Debug.Log (matchState.printTowerSituation ());
 		//distribute farm...
 		int baseGold = 2500; //per side
 		int advantage = matchState.teamAdvantage ();
@@ -154,7 +163,7 @@ public class MatchScript : Singleton<MatchScript> {
     private void checkForVictory()
     {
         // Win condition whatevers, could be inside fightmanager or dialogmanager
-        if (matchState.matchMinutes > 45 || matchState.team1Towers == 0 || matchState.team2Towers == 0)
+        if (matchState.team1Towers == 0 || matchState.team2Towers == 0)
         {
             matchState.isWon = true;
         }

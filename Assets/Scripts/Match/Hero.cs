@@ -135,13 +135,22 @@ public class Hero
 		}
 	}
 
-	private int damageAmount() {
+	private int damageAmount() { //TODO: add player hero-knowledge skill effects
 		if (heroType == HeroType.Carry)
-			return (damage * (3 * gold / 100));
+			return (damage * (1 + gold / 1000));
 		else if (heroType == HeroType.Ganker)
-			return (damage * (2 * gold / 100));
+			return (damage * (1 + gold / 2000));
 		else
-			return (damage * (gold / 100));
+			return (damage * (1 + gold / 3000));
+	}
+
+	public int damageToTower() { //TODO: add player hero-knowledge skill effects
+		if (heroType == HeroType.Carry)
+			return (damage * 5 * (1 + gold / 1000));
+		else if (heroType == HeroType.Ganker)
+			return (damage * 5 * (1 + gold / 2000));
+		else
+			return (damage * 10 * ((1 + gold / 2000)));
 	}
 
 	public string ToString() {
