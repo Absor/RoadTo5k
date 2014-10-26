@@ -150,6 +150,7 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         int gain = Mathf.RoundToInt(points * currentGameState.statuses[StatusType.Rage_Gain_Modifier].GetNormalizedPoints());
         status.points += gain;
         StatusChangeLoggerScript.Instance.LogStatusChange(StatusType.Rage, gain);
+        informAboutUpdate();
     }
 
     public void GainRating(int points)
@@ -157,6 +158,7 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         Status status = GetStatus(StatusType.Rating);
         status.points += points;
         StatusChangeLoggerScript.Instance.LogStatusChange(StatusType.Rating, points);
+        informAboutUpdate();
     }
 
     public Player GetRealPlayer()
