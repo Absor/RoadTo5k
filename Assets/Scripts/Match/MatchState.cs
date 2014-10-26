@@ -295,5 +295,9 @@ public class MatchState {
 			}
 		}
 	}
-	
+
+    public bool PlayerTeamWon()
+    {
+        return team2Towers == 0;
+    }
 }
