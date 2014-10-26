@@ -31,16 +31,10 @@ public class AttributeUiManagerScript : Singleton<AttributeUiManagerScript> {
         tooltipScripts.Add(StatusType.Rage, rageTooltipScript);
         gainText.color = new Color(0, 0, 0, 0);
 
-        List<StatusType> attributes = new List<StatusType>();
-        attributes.Add(StatusType.Charisma);
-        attributes.Add(StatusType.Luck);
-        attributes.Add(StatusType.Talent);
-        attributes.Add(StatusType.Knowledge_Carry);
-        attributes.Add(StatusType.Knowledge_Ganker);
-        attributes.Add(StatusType.Knowledge_Support);
-        foreach (StatusType type in attributes)
+        StatusType[] types = Enum.GetValues(typeof(StatusType)) as StatusType[];
+        foreach (StatusType type in types)
         {
-            if (type != StatusType.Rage)
+            if (type.IsAPlayerAttribute())
             {
                 GameObject sliderContainer = Instantiate(sliderContainerPrefab) as GameObject;
                 sliderContainer.transform.SetParent(slidersContainer.transform, false);

@@ -11,11 +11,16 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
 
     private Dictionary<string, List<GameEvent>> dailyEvents;
     private List<GameEvent> watchEvents;
+    private List<string> nickNames;
 
-    void Start()
+    void Awake()
     {
         dailyEvents = JsonMapper.ToObject<Dictionary<string, List<GameEvent>>>(dailyEventsTextAsset.text);
         watchEvents = JsonMapper.ToObject<List<GameEvent>>(watchEventsTextAsset.text);
+
+        nickNames = new List<string>();
+        string[] nicks = nicknamesTextAsset.text.Split(new char[]{'\n'});
+        nickNames.AddRange(nicks);
 
         // TODO REMOVE BELOW
 		/*
@@ -89,10 +94,7 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
 
     public GameEvent GetWatchEvent()
     {
-		Debug.Log("Amount of watchEvents"+watchEvents.Count);
-
 		return watchEvents[Random.Range(0, watchEvents.Count)];
-
     }
 
     public Player GetRandomPlayer()
@@ -118,8 +120,14 @@ public class RandomGeneratorScript : Singleton<RandomGeneratorScript> {
         hero.initiative = Random.Range(1, 100);
         hero.currenthp = hero.maxhp;
         hero.heroType = HeroType.Carry;
+        hero.name = GetRandomNickname();
 
         hero.player = GetRandomPlayer();
         return hero;
+    }
+
+    public string GetRandomNickname()
+    {
+        return nickNames[Random.Range(0, nickNames.Count)];
     }
 }

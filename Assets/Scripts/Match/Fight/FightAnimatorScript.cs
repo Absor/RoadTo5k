@@ -356,4 +356,12 @@ public class FightAnimatorScript : Singleton<FightAnimatorScript> {
     {
         return Mathf.Abs(character.animationFromY - character.animationToY) * secondsPerSquare;
     }
+
+    public void SetTexts(List<string> newTexts)
+    {
+        for (int i = 0; i < Mathf.Max(10, newTexts.Count); i++)
+        {
+            fightCharacters[i].animatorScript.SetText(newTexts[i]);
+        }
+    }
 }

@@ -13,7 +13,7 @@ public class Hero
 {
 	public int id;
 
-	public string name = "uliuli"; 	//TODO: get these generated from somewhere
+	public string name;
 	public int initiative; 			//the bigger the number, the better the chances of going first in a fight
 	public int maxhp;
 	public int currenthp;

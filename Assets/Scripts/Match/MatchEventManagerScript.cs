@@ -15,8 +15,10 @@ public enum MatchEventType
 public class MatchEventManagerScript : Singleton<MatchEventManagerScript> {
 
     private MatchEventType eventType;
+    private MatchState matchState;
 
 	public void DecideEvent(MatchState matchState) {
+        this.matchState = matchState;
         int team1Dead = matchState.Team1CurrentlyDead();
         int team2Dead = matchState.Team2CurrentlyDead();
 
@@ -27,13 +29,14 @@ public class MatchEventManagerScript : Singleton<MatchEventManagerScript> {
                 if (team1Dead > team2Dead)
                 {
                     // enemy rushan
+                    eventType = MatchEventType.ENEMY_RUSHAN;
+                    Dialog dialog = getEnemyRushanDialog();
+                    DialogManagerScript.Instance.ShowDialog(dialog, dialogResolved);
                 }
                 else
                 {
                     // our rushan
                 }
-                // TODO move to resolve part
-                matchState.timeToRushan = 15;
             }
         } else if (matchState.team1Wards <= 0) {
             // wardeeeei
@@ -49,6 +52,26 @@ public class MatchEventManagerScript : Singleton<MatchEventManagerScript> {
         
     }
 
+    private Dialog getEnemyRushanDialog()
+    {
+        Dialog dialog = new Dialog();
+        dialog.dialogText = "You notice that the enemy teams is attempting to kill Rushan";
+        DialogOption option = new DialogOption();
+        option.optionId = "team";
+        option.optionText = "Tell your team to buyback and try to kill them";
+        dialog.dialogOptions.Add(option);
+        option = new DialogOption();
+        option.optionId = "self";
+        option.optionText = "Try to prevent the kill yourself";
+        dialog.dialogOptions.Add(option);
+        option = new DialogOption();
+        option.optionId = "neutral";
+        option.optionText = "Do nothing";
+        dialog.dialogOptions.Add(option);
+
+        return dialog;
+    }
+
     private void dialogResolved(DialogOption option)
     {
         switch (eventType)
@@ -56,8 +79,26 @@ public class MatchEventManagerScript : Singleton<MatchEventManagerScript> {
             case MatchEventType.WARDS:
                 resolveWardsDialog(option);
                 break;
+            case MatchEventType.ENEMY_RUSHAN:
+                resolveEnemyRushanDialog(option);
+                break;
         }
         MatchScript.Instance.StepResolved();
+    }
+
+    private void resolveEnemyRushanDialog(DialogOption option)
+    {
+        switch (option.optionId)
+        {
+            case "team":
+                matchState.timeToRushan = 15;
+                break;
+            case "self":
+                matchState.timeToRushan = 15;
+                break;
+            case "neutral":
+                break;
+        }
     }
 
     private void resolveWardsDialog(DialogOption option)
@@ -65,10 +106,10 @@ public class MatchEventManagerScript : Singleton<MatchEventManagerScript> {
         switch (option.optionId)
         {
             case "team":
-
+                
                 break;
             case "self":
-
+                matchState.team1Wards = 15;
                 break;
             case "neutral":
                 break;

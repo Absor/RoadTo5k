@@ -50,6 +50,19 @@ public class MatchScript : Singleton<MatchScript> {
 		ActivateScreen(gameScreen);
         // Reset fight manager (animations) has to be after activate to update animations
         FightManagerScript.Instance.Reset();
+        List<string> names = new List<string>();
+        for (int i = 0; i < matchState.matchHeroes.Count; i++)
+        {
+            if (i == 0)
+            {
+                names.Add("You");
+            }
+            else
+            {
+                names.Add(matchState.matchHeroes[i].name);
+            }
+        }
+        FightAnimatorScript.Instance.SetTexts(names);
     }
 
     private void PlayNextStep()
@@ -131,6 +144,9 @@ public class MatchScript : Singleton<MatchScript> {
         int addMinutes = Random.Range(5, 10);
         matchState.matchMinutes += addMinutes;
         GameStateManagerScript.Instance.AdvanceTime(addMinutes);
+        matchState.team1Wards -= addMinutes;
+        matchState.team2Wards -= addMinutes;
+        matchState.timeToRushan -= addMinutes;
         checkForVictory();
     }
 	                  
