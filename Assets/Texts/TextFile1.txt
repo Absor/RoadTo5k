@@ -1,0 +1,37 @@
+﻿,
+    "20": [
+        {
+            "dialog": {
+                "dialogText": "You lost your job. Well, more time to play MOBA...",
+                "dialogOptions": [
+                    {
+                        "optionId": "ok",
+                        "optionText": "Ok",
+                        "tooltipText": null
+                    }
+                ]
+            },
+            "outcomes": {
+                "ok": [
+                    {
+                        "statusType": 10,
+                        "replace": true,
+                        "min": 540,
+                        "max": 660,
+                        "baseChance": 1,
+                        "luckModifier": 0,
+                        "permanent": true
+                    },
+                    {
+                        "statusType": 11,
+                        "replace": true,
+                        "min": 720,
+                        "max": 840,
+                        "baseChance": 1,
+                        "luckModifier": 0,
+                        "permanent": true
+                    }
+                ]
+            }
+        }
+    ]

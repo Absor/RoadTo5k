@@ -1,4 +1,5 @@
-﻿public enum StatusType : int
+﻿using UnityEngine;
+public enum StatusType : int
 {
 	Rating = 0,
     Rage = 1,
@@ -13,7 +14,9 @@
     Day_Start_Time_Min = 10,
     Day_Start_Time_Max = 11,
     Rage_Gain_Modifier = 12,
-    Talent = 13
+    Talent = 13,
+    Food = 14,
+    Money = 15
 }
 
 public static class StatusTypeExtensions
@@ -39,7 +42,18 @@ public static class StatusTypeExtensions
 public class Status
 {
     public StatusType type;
-    public int points;
+    private int _points;
+    public int points
+    {
+        get
+        {
+            return _points;
+        }
+        set
+        {
+            _points = Mathf.Clamp(value, 0, maxPoints);
+        }
+    }
     public int maxPoints;
 
     public Status(StatusType type, int points, int maxPoints)

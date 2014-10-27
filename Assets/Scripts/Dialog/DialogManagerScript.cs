@@ -11,13 +11,40 @@ public class DialogManagerScript : Singleton<DialogManagerScript> {
     public GameObject dialogButtonContainer;
     public Text dialogText;
 
+    private Stack<Dialog> toDo;
+    private Dictionary<Dialog, Action<DialogOption>> toDones;
+
     void Awake()
     {
         dialogContainer.SetActive(false);
+        toDo = new Stack<Dialog>();
+        toDones = new Dictionary<Dialog, Action<DialogOption>>();
     }
 
     public void ShowDialog(Dialog dialog, Action<DialogOption> done)
     {
+        toDo.Push(dialog);
+        toDones[dialog] = done;
+
+        resolveWaitingDialogs();
+    }
+
+    private void resolveWaitingDialogs()
+    {
+        if (!showing && toDo.Count > 0)
+        {
+            Dialog dialog = toDo.Pop();
+            Action<DialogOption> done = toDones[dialog];
+            toDones.Remove(dialog);
+            ShowDialogus(dialog, done);
+        }
+    }
+
+    private bool showing = false;
+
+    private void ShowDialogus(Dialog dialog, Action<DialogOption> done)
+    {
+        showing = true;
         dialogText.text = dialog.dialogText;
 
         List<GameObject> dialogButtons = new List<GameObject>();
@@ -36,6 +63,8 @@ public class DialogManagerScript : Singleton<DialogManagerScript> {
             {
                 dialogContainer.SetActive(false);
                 done(option);
+                showing = false;
+                resolveWaitingDialogs();
             });
             dialogButton.transform.parent = dialogButtonContainer.transform;
             TooltipOnPointerOverScript tooltipScript = dialogButton.GetComponent<TooltipOnPointerOverScript>();

@@ -11,6 +11,8 @@ public class AttributeUiManagerScript : Singleton<AttributeUiManagerScript> {
     public GameObject slidersContainer;
     public GameObject sliderContainerPrefab;
     public Text gainText;
+    public Slider rageSlider;
+    public Slider foodSlider;
     // Texts
     private Text pointsAvailableText;
     private Dictionary<StatusType, Slider> sliders;
@@ -25,10 +27,12 @@ public class AttributeUiManagerScript : Singleton<AttributeUiManagerScript> {
         sliders = new Dictionary<StatusType, Slider>();
         tooltipScripts = new Dictionary<StatusType, TooltipOnPointerOverScript>();
         addButtons = new List<Button>();
-        Slider rageSlider = GetComponentInChildren<Slider>();
         sliders.Add(StatusType.Rage, rageSlider);
+        sliders.Add(StatusType.Food, foodSlider);
         TooltipOnPointerOverScript rageTooltipScript = rageSlider.GetComponentInChildren<TooltipOnPointerOverScript>();
         tooltipScripts.Add(StatusType.Rage, rageTooltipScript);
+        TooltipOnPointerOverScript foodTooltipScript = foodSlider.GetComponentInChildren<TooltipOnPointerOverScript>();
+        tooltipScripts.Add(StatusType.Food, foodTooltipScript);
         gainText.color = new Color(0, 0, 0, 0);
 
         StatusType[] types = Enum.GetValues(typeof(StatusType)) as StatusType[];

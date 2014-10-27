@@ -34,11 +34,18 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         }
         currentGameState.statuses[StatusType.Skillpoints_Assign_Amount].points = 4;
         currentGameState.statuses[StatusType.Skillpoints_Available].points = 0;
+        currentGameState.statuses[StatusType.Time].maxPoints = int.MaxValue;
         currentGameState.statuses[StatusType.Time].points = 24 * 60 + 17 * 60 + 30;
-        currentGameState.statuses[StatusType.Day_Start_Time_Min].points = 17 * 60;
-        currentGameState.statuses[StatusType.Day_Start_Time_Max].points = 18 * 60;
+        currentGameState.statuses[StatusType.Day_Start_Time_Min].maxPoints = int.MaxValue;
+        currentGameState.statuses[StatusType.Day_Start_Time_Min].points = 7 * 60;
+        currentGameState.statuses[StatusType.Day_Start_Time_Max].maxPoints = int.MaxValue;
+        currentGameState.statuses[StatusType.Day_Start_Time_Max].points = 8 * 60;
         currentGameState.statuses[StatusType.Rage_Gain_Modifier].points = 100;
+        currentGameState.statuses[StatusType.Rating].maxPoints = int.MaxValue;
 		currentGameState.statuses[StatusType.Rating].points = 2200;
+        currentGameState.statuses[StatusType.Food].points = 50;
+        currentGameState.statuses[StatusType.Money].maxPoints = int.MaxValue;
+        currentGameState.statuses[StatusType.Money].points = 20;
     }
 
     private void informAboutUpdate()
@@ -77,7 +84,8 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
     {
         int nextDay = currentGameState.statuses[StatusType.Time].points / (60 * 24) + 1;
         int startMinutes = UnityEngine.Random.Range(currentGameState.statuses[StatusType.Day_Start_Time_Min].points, currentGameState.statuses[StatusType.Day_Start_Time_Max].points);
-        currentGameState.statuses[StatusType.Time].points = nextDay * 24 * 60 + startMinutes;
+        int newTime = nextDay * 24 * 60 + startMinutes;
+        AdvanceTime(newTime - currentGameState.statuses[StatusType.Time].points);
 
         while (currentGameState.temporaryChanges.Count > 0)
         {
@@ -171,6 +179,11 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         Status status = GetStatus(StatusType.Rating);
         status.points += points;
         StatusChangeLoggerScript.Instance.LogStatusChange(StatusType.Rating, points);
+
+        if (status.points >= 5000)
+        {
+            GameEndScript.Instance.ShowEndText("You win.");
+        }
         informAboutUpdate();
     }
 
@@ -191,6 +204,55 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
     public void AdvanceTime(int minutes)
     {
         currentGameState.statuses[StatusType.Time].points += minutes;
+        removeFood(minutes);
+
+        informAboutUpdate();
+    }
+
+    private int hungerMinutes = 0;
+
+    private void removeFood(int minutes)
+    {
+        if (currentGameState.statuses[StatusType.Food].points == 0)
+        {
+            hungerMinutes += minutes;
+        }
+
+        if (hungerMinutes >= 24 * 60)
+        {
+            GameEndScript.Instance.ShowEndText("You died of hunger.");
+        }
+        else if (hungerMinutes >= 24 * 60 * 0.8)
+        {
+            Dialog dialog = new Dialog();
+            dialog.dialogText = "You will soon die of hunger.";
+            DialogOption option = new DialogOption();
+            option.optionText = "Ok";
+            dialog.dialogOptions.Add(option);
+            DialogManagerScript.Instance.ShowDialog(dialog, noOp);
+        }
+
+        int amount = Mathf.Max(1, Mathf.RoundToInt(1.0f * minutes / 60 / 24 * 100));
+        Eat(-amount);
+    }
+
+    private void noOp(DialogOption obj)
+    {
+    }
+
+    public void Eat(int amount)
+    {
+        if (amount > 0 && currentGameState.statuses[StatusType.Food].points == 0)
+        {
+            hungerMinutes = Mathf.RoundToInt(0.1f * hungerMinutes);
+        }
+        currentGameState.statuses[StatusType.Food].points += amount;
+        informAboutUpdate();
+    }
+
+    public void ChangeMoney(int amount)
+    {
+        currentGameState.statuses[StatusType.Money].points += amount;
         informAboutUpdate();
     }
 }
