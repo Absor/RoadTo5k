@@ -12,6 +12,9 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
     public class GameStateUpdate : UnityEvent {}
     public GameStateUpdate OnGameStateUpdate = new GameStateUpdate();
 
+	public AudioClip groan1;
+	public AudioClip phew3;
+
     void Awake()
     {
         currentGameState = new GameState();
@@ -150,6 +153,16 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
         int gain = Mathf.RoundToInt(points * currentGameState.statuses[StatusType.Rage_Gain_Modifier].GetNormalizedPoints());
         status.points += gain;
         StatusChangeLoggerScript.Instance.LogStatusChange(StatusType.Rage, gain);
+		if(gain > 0){
+			audio.clip = groan1;
+			audio.Play();
+		};
+		if (gain < 0){
+			audio.clip = phew3;
+			audio.Play();
+		};
+		
+		Debug.Log("gain number: "+gain);
         informAboutUpdate();
     }
 
