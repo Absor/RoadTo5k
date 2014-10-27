@@ -55,7 +55,7 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
 
     public void AssignPoint(StatusType type)
     {
-        if (GameStateManagerScript.Instance.GetAvailableSkillPoints() > 0)
+        if (type.IsAPlayerAttribute() && GameStateManagerScript.Instance.GetAvailableSkillPoints() > 0)
         {
             Status status = GetStatus(type);
             status.points += currentGameState.statuses[StatusType.Skillpoints_Assign_Amount].points;
