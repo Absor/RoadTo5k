@@ -1,1 +1,262 @@
-[{"dialog":{"dialogText":"You get home from work, you feel bored. You decide to aim for 5k rating in MOBA. You feel a bit better about yourself for making this great decision.","dialogOptions":[{"optionId":"positive","optionText":"Ok"}]},"outcomes":{"positive":{}}}]
+[
+        {
+            "dialog": {
+                "dialogText": "You went out with friends.",
+                "dialogOptions": [
+                    {
+                        "optionId": "ok",
+                        "optionText": "Ok",
+                        "tooltipText": null
+                    }
+                ]
+            },
+            "outcomes": {
+                "ok": [
+                    {
+                        "statusType": 1,
+                        "replace": false,
+                        "min": -2,
+                        "max": -4,
+                        "baseChance": 1,
+                        "luckModifier": 0,
+                        "permanent": false
+                    }
+                ]
+            }
+        },
+        {
+            "dialog": {
+                "dialogText": "Your friend gave you some tips on how to play support.",
+                "dialogOptions": [
+                    {
+                        "optionId": "ok",
+                        "optionText": "Ok",
+                        "tooltipText": null
+                    }
+                ]
+            },
+            "outcomes": {
+                "ok": [
+                    {
+                        "statusType": 4,
+                        "replace": false,
+                        "min": 2,
+                        "max": 4,
+                        "baseChance": 0.5,
+                        "luckModifier": 0,
+                        "permanent": false
+                    }
+                ]
+            }
+        },
+        {
+            "dialog": {
+                "dialogText": "You read some some tips on how to play ganker.",
+                "dialogOptions": [
+                    {
+                        "optionId": "ok",
+                        "optionText": "Ok",
+                        "tooltipText": null
+                    }
+                ]
+            },
+            "outcomes": {
+                "ok": [
+                    {
+                        "statusType": 5,
+                        "replace": false,
+                        "min": 2,
+                        "max": 4,
+                        "baseChance": 0.5,
+                        "luckModifier": 0,
+                        "permanent": false
+                    }  
+                ]
+            }
+        },
+        {
+            "dialog": {
+                "dialogText": "Your friend gave you some tips on how to play carry.",
+                "dialogOptions": [
+                    {
+                        "optionId": "ok",
+                        "optionText": "Ok",
+                        "tooltipText": null
+                    }
+                ]
+            },
+            "outcomes": {
+                "ok": [
+                    {
+                        "statusType": 6,
+                        "replace": false,
+                        "min": 2,
+                        "max": 4,
+                        "baseChance": 0.5,
+                        "luckModifier": 0,
+                        "permanent": false
+                    }
+                ]
+            }
+        },
+        {
+            "dialog": {
+                "dialogText": "Patch day! Patch caused major changes to gameplay.",
+                "dialogOptions": [
+                    {
+                        "optionId": "ok",
+                        "optionText": "Ok",
+                        "tooltipText": null
+                    }
+                ]
+            },
+            "outcomes": {
+                "ok": [
+                    {
+                        "statusType": 4,
+                        "replace": false,
+                        "min": -2,
+                        "max": -4,
+                        "baseChance": 1,
+                        "luckModifier": 0,
+                        "permanent": true
+                    },
+                    {
+                        "statusType": 6,
+                        "replace": false,
+                        "min": -2,
+                        "max": -4,
+                        "baseChance": 1,
+                        "luckModifier": 0,
+                        "permanent": true
+                    }
+                ]
+            }
+        },
+        {
+            "dialog": {
+                "dialogText": "Patch day! Newest patch fixed minor issues.",
+                "dialogOptions": [
+                    {
+                        "optionId": "ok",
+                        "optionText": "Ok",
+                        "tooltipText": null
+                    }
+                ]
+            },
+            "outcomes": {
+                "ok": [
+                    {
+                        "statusType": 5,
+                        "replace": false,
+                        "min": -1,
+                        "max": -1,
+                        "baseChance": 1,
+                        "luckModifier": 0,
+                        "permanent": true
+                    }
+                ]
+            }
+        },
+        {
+            "dialog": {
+                "dialogText": "Patch day! This patch fixed minor issues.",
+                "dialogOptions": [
+                    {
+                        "optionId": "ok",
+                        "optionText": "Ok",
+                        "tooltipText": null
+                    }
+                ]
+            },
+            "outcomes": {
+                "ok": [
+                    {
+                        "statusType": 6,
+                        "replace": false,
+                        "min": -1,
+                        "max": -1,
+                        "baseChance": 1,
+                        "luckModifier": 0,
+                        "permanent": true
+                    }
+                ]
+            }
+        },
+        {
+            "dialog": {
+                "dialogText": "Everything seems to go right today.",
+                "dialogOptions": [
+                    {
+                        "optionId": "ok",
+                        "optionText": "Ok",
+                        "tooltipText": null
+                    }
+                ]
+            },
+            "outcomes": {
+                "ok": [
+                    {
+                        "statusType": 3,
+                        "replace": false,
+                        "min": 1,
+                        "max": 4,
+                        "baseChance": 1,
+                        "luckModifier": 0,
+                        "permanent": false
+                    }
+                ]
+            }
+        },
+        {
+            "dialog": {
+                "dialogText": "Nothing seems to go as planned today.",
+                "dialogOptions": [
+                    {
+                        "optionId": "ok",
+                        "optionText": "Ok",
+                        "tooltipText": null
+                    }
+                ]
+            },
+            "outcomes": {
+                "ok": [
+                    {
+                        "statusType": 3,
+                        "replace": false,
+                        "min": -1,
+                        "max": -4,
+                        "baseChance": 1,
+                        "luckModifier": 0,
+                        "permanent": false
+                    }
+                ]
+            }
+        },
+         {
+            "dialog": {
+                "dialogText": "You attended a Russian class.",
+                "dialogOptions": [
+                    {
+                        "optionId": "ok",
+                        "optionText": "Ok",
+                        "tooltipText": null
+                    }
+                ]
+            },
+            "outcomes": {
+                "ok": [
+                    {
+                        "statusType": 2,
+                        "replace": false,
+                        "min": 2,
+                        "max": 4,
+                        "baseChance": 1,
+                        "luckModifier": 0,
+                        "permanent": true
+                    }
+                ]
+            }
+        }
+        
+    ]

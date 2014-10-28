@@ -6,7 +6,7 @@ public class TooltipManagerScript : Singleton<TooltipManagerScript> {
 
     private Text text;
 
-    void Start()
+    void Awake()
     {
         text = gameObject.GetSafeComponentInChildren<Text>();
         HideToolTip();

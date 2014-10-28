@@ -16,4 +16,10 @@ public class GameEndScript : Singleton<GameEndScript> {
         endPanel.SetActive(true);
         endText.text = text;
     }
+
+    void Update()
+    {
+        if (Input.GetKey("escape"))
+            Application.LoadLevel(Application.loadedLevelName);
+    }
 }

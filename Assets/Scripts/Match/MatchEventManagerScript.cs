@@ -36,6 +36,9 @@ public class MatchEventManagerScript : Singleton<MatchEventManagerScript> {
                 else
                 {
                     // our rushan
+                    eventType = MatchEventType.OWN_RUSHAN;
+                    Dialog dialog = getOwnRushanDialog();
+                    DialogManagerScript.Instance.ShowDialog(dialog, dialogResolved);
                 }
             }
         } else if (matchState.team1Wards <= 0) {
@@ -52,10 +55,30 @@ public class MatchEventManagerScript : Singleton<MatchEventManagerScript> {
         
     }
 
+    private Dialog getOwnRushanDialog()
+    {
+        Dialog dialog = new Dialog();
+        dialog.dialogText = "Most of the enemy team is dead, you have a chance to kill Rushan!";
+        DialogOption option = new DialogOption();
+        option.optionId = "team";
+        option.optionText = "Tell your team to kill Rushan";
+        dialog.dialogOptions.Add(option);
+        option = new DialogOption();
+        option.optionId = "self";
+        option.optionText = "Try to kill Rushan yourself";
+        dialog.dialogOptions.Add(option);
+        option = new DialogOption();
+        option.optionId = "neutral";
+        option.optionText = "Do nothing";
+        dialog.dialogOptions.Add(option);
+
+        return dialog;
+    }
+
     private Dialog getEnemyRushanDialog()
     {
         Dialog dialog = new Dialog();
-        dialog.dialogText = "You notice that the enemy teams is attempting to kill Rushan";
+        dialog.dialogText = "You notice that the enemy team is attempting to kill Rushan";
         DialogOption option = new DialogOption();
         option.optionId = "team";
         option.optionText = "Tell your team to buyback and try to kill them";
@@ -82,8 +105,16 @@ public class MatchEventManagerScript : Singleton<MatchEventManagerScript> {
             case MatchEventType.ENEMY_RUSHAN:
                 resolveEnemyRushanDialog(option);
                 break;
+            case MatchEventType.OWN_RUSHAN:
+                resolveOwnRushanDialog(option);
+                break;
         }
         MatchScript.Instance.StepResolved();
+    }
+
+    private void resolveOwnRushanDialog(DialogOption option)
+    {
+
     }
 
     private void resolveEnemyRushanDialog(DialogOption option)

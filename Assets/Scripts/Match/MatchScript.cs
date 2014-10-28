@@ -188,7 +188,7 @@ public class MatchScript : Singleton<MatchScript> {
     private void checkForVictory()
     {
         // Win condition whatevers, could be inside fightmanager or dialogmanager
-        if (matchState.team1Towers == 0 || matchState.team2Towers == 0)
+        if (matchState.team1Towers <= 0 || matchState.team2Towers <= 0)
         {
             matchState.isWon = true;
         }

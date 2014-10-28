@@ -170,7 +170,7 @@ public class GameStateManagerScript : Singleton<GameStateManagerScript>
 			audio.Play();
 		};
 		
-		Debug.Log("gain number: "+gain);
+		//Debug.Log("gain number: "+gain);
         informAboutUpdate();
     }
 

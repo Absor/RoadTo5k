@@ -18,7 +18,7 @@ public class MatchEndScript : Singleton<MatchEndScript> {
         int rage = 0;
         int rating = 0;
 
-        if (matchState.PlayerTeamWon())
+        if (matchState.gameWinnerTeam() == 1)
         {
             rating += Random.Range(50, 70);
             rage += Random.Range(-10, -5);
@@ -42,7 +42,7 @@ public class MatchEndScript : Singleton<MatchEndScript> {
     private void showMatchStats(MatchState matchState)
     {
         string stats = "";
-        if (matchState.PlayerTeamWon())
+        if (matchState.gameWinnerTeam() == 1)
         {
             stats += "<color=green>Your team won!</color>\n";
         }
