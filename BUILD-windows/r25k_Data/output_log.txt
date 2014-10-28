@@ -1,0 +1,21 @@
+Initialize engine version: 4.6.0b18 (c6d68b07d87a)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 10.1]
+    Renderer: Intel(R) HD Graphics 3000 (ID=0x126)
+    Vendor:   Intel
+    VRAM:     32 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\Projects\RoadTo5K\BUILD-windows\r25k_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Projects\RoadTo5K\BUILD-windows\r25k_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Projects\RoadTo5K\BUILD-windows\r25k_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Projects\RoadTo5K\BUILD-windows\r25k_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Projects\RoadTo5K\BUILD-windows\r25k_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\Projects\RoadTo5K\BUILD-windows\r25k_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.069 seconds
+desktop: 1366x768 50Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: D:\Projects\RoadTo5K\BUILD-windows\r25k_Data\Managed\System.dll (this message is harmless)
+Platform assembly: D:\Projects\RoadTo5K\BUILD-windows\r25k_Data\Managed\System.Core.dll (this message is harmless)
+WARNING: Shader Unsupported: 'Reflective/VertexLit' - Pass '' shader state not supported
